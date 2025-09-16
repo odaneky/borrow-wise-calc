@@ -8,51 +8,67 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Main colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 210 11% 19%;
+    
+    /* Card colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --card-foreground: 210 11% 19%;
+    
+    /* Financial app primary colors */
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 207 90% 42%;
+    
+    /* Secondary financial colors */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 210 11% 19%;
+    
+    /* Dark panels */
+    --panel-dark: 210 11% 19%;
+    --panel-dark-foreground: 0 0% 100%;
+    --panel-darker: 210 11% 15%;
+    
+    /* Accent colors */
+    --accent: 210 40% 96%;
+    --accent-foreground: 210 11% 19%;
+    
+    /* Muted colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    
+    /* Success/Interest colors */
+    --success: 134 61% 41%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Destructive/Error colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border and input */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 207 90% 54%;
+    
+    /* Radius */
+    --radius: 0.75rem;
+    
+    /* Gradients */
+    --gradient-main: linear-gradient(135deg, 250 84% 54%, 259 100% 65%);
+    --gradient-primary: linear-gradient(135deg, 207 90% 54%, 207 90% 42%);
+    --gradient-panel: linear-gradient(135deg, 210 11% 19%, 210 11% 15%);
+    --gradient-success: linear-gradient(135deg, 134 61% 41%, 142 69% 58%);
+    --gradient-destructive: linear-gradient(135deg, 0 84% 60%, 0 63% 31%);
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(207 90% 54% / 0.3);
+    --shadow-card: 0 10px 30px hsl(0 0% 0% / 0.1);
+    --shadow-glow: 0 0 40px hsl(207 90% 54% / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .dark {
@@ -101,5 +117,43 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Slider styles */
+  .slider-thumb::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    cursor: pointer;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
+    transition: all 0.2s ease;
+  }
+  
+  .slider-thumb::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
+  }
+  
+  .slider-thumb::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    cursor: pointer;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.3);
+    border: none;
+    transition: all 0.2s ease;
+  }
+  
+  .slider-thumb::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px hsl(var(--primary) / 0.4);
+  }
+  
+  /* Rotating logo animation */
+  .hover\\:rotate-360:hover {
+    transform: rotate(360deg);
   }
 }
