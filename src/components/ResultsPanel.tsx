@@ -248,13 +248,15 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
       </div>
 
       <div className="grid grid-cols-2 gap-5 mb-8">
-        <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
-          <div className="mb-1">Effective Rate</div>
-          <div>{calculations.effectiveRate.toFixed(2)}%</div>
+        <div className="text-left">
+          <div className="text-sm opacity-80 mb-1">Commitment Fee</div>
+          <div className="text-lg font-semibold">
+            {formatCurrency(calculations.totalLoan * 0.015)}
+          </div>
         </div>
-        <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
-          <div className="mb-1">Payback Date</div>
-          <div>
+        <div className="text-right">
+          <div className="text-sm opacity-80 mb-1">Payback Date</div>
+          <div className="text-lg font-semibold">
             {calculations.paybackDate.toLocaleDateString('en-US', { 
               month: 'short', 
               year: 'numeric' 
