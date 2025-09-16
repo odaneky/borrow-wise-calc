@@ -48,27 +48,18 @@ export default {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        header: {
+          DEFAULT: "hsl(var(--header))",
+          foreground: "hsl(var(--header-foreground))",
+        },
         panel: {
           dark: "hsl(var(--panel-dark))",
           "dark-foreground": "hsl(var(--panel-dark-foreground))",
           darker: "hsl(var(--panel-darker))",
         },
       },
-      backgroundImage: {
-        "gradient-main": "var(--gradient-main)",
-        "gradient-primary": "var(--gradient-primary)",
-        "gradient-panel": "var(--gradient-panel)",
-        "gradient-success": "var(--gradient-success)",
-        "gradient-destructive": "var(--gradient-destructive)",
-      },
       boxShadow: {
-        elegant: "var(--shadow-elegant)",
         card: "var(--shadow-card)",
-        glow: "var(--shadow-glow)",
-      },
-      transitionTimingFunction: {
-        smooth: "var(--transition-smooth)",
-        spring: "var(--transition-spring)",
       },
       borderRadius: {
         lg: "var(--radius)",

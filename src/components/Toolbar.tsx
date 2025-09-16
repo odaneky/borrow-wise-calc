@@ -5,26 +5,25 @@ const Toolbar = () => {
 
   const tools = [
     "Loan Calculator",
-    "Affordability Calculator", 
-    "Refinance Calculator"
+    "Affordability Calculator"
   ];
 
   return (
-    <div className="bg-secondary p-5 lg:px-10 border-b border-border">
+    <div className="px-8 py-6">
       <h2 className="text-foreground text-2xl font-semibold mb-1">Tools</h2>
-      <p className="text-muted-foreground text-sm mb-4">
+      <p className="text-muted-foreground text-sm mb-6">
         Understand your financial options with our comprehensive calculators
       </p>
       
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex gap-4">
         {tools.map((tool) => (
           <button
             key={tool}
             onClick={() => setActiveTool(tool)}
-            className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 ${
               activeTool === tool
-                ? "border-2 border-primary text-primary transform -translate-y-0.5 shadow-elegant"
-                : "bg-card border-2 border-border text-muted-foreground hover:border-primary hover:text-primary hover:-translate-y-0.5 hover:shadow-elegant"
+                ? "border-2 border-primary text-primary bg-primary/5"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {tool}

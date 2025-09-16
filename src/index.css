@@ -9,34 +9,38 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Main colors */
-    --background: 0 0% 100%;
-    --foreground: 210 11% 19%;
+    --background: 240 10% 96%;
+    --foreground: 215 25% 27%;
     
     /* Card colors */
     --card: 0 0% 100%;
-    --card-foreground: 210 11% 19%;
+    --card-foreground: 215 25% 27%;
     
-    /* Financial app primary colors */
-    --primary: 207 90% 54%;
+    /* Header colors */
+    --header: 215 25% 27%;
+    --header-foreground: 0 0% 100%;
+    
+    /* Primary colors - teal/cyan */
+    --primary: 180 78% 57%;
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 207 90% 42%;
+    --primary-dark: 180 78% 47%;
     
-    /* Secondary financial colors */
+    /* Secondary colors */
     --secondary: 210 40% 96%;
-    --secondary-foreground: 210 11% 19%;
+    --secondary-foreground: 215 25% 27%;
     
-    /* Dark panels */
-    --panel-dark: 210 11% 19%;
+    /* Dark panel */
+    --panel-dark: 215 25% 27%;
     --panel-dark-foreground: 0 0% 100%;
-    --panel-darker: 210 11% 15%;
+    --panel-darker: 215 25% 23%;
     
     /* Accent colors */
-    --accent: 210 40% 96%;
-    --accent-foreground: 210 11% 19%;
+    --accent: 180 78% 57%;
+    --accent-foreground: 0 0% 100%;
     
     /* Muted colors */
     --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 215 16% 57%;
     
     /* Success/Interest colors */
     --success: 134 61% 41%;
@@ -49,26 +53,17 @@ All colors MUST be HSL.
     /* Border and input */
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 207 90% 54%;
+    --ring: 180 78% 57%;
     
     /* Radius */
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     
     /* Gradients */
-    --gradient-main: linear-gradient(135deg, 250 84% 54%, 259 100% 65%);
-    --gradient-primary: linear-gradient(135deg, 207 90% 54%, 207 90% 42%);
-    --gradient-panel: linear-gradient(135deg, 210 11% 19%, 210 11% 15%);
-    --gradient-success: linear-gradient(135deg, 134 61% 41%, 142 69% 58%);
-    --gradient-destructive: linear-gradient(135deg, 0 84% 60%, 0 63% 31%);
+    --gradient-primary: linear-gradient(135deg, 180 78% 57%, 180 78% 47%);
+    --gradient-panel: linear-gradient(135deg, 215 25% 27%, 215 25% 23%);
     
     /* Shadows */
-    --shadow-elegant: 0 10px 30px -10px hsl(207 90% 54% / 0.3);
-    --shadow-card: 0 10px 30px hsl(0 0% 0% / 0.1);
-    --shadow-glow: 0 0 40px hsl(207 90% 54% / 0.4);
-    
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   }
 
   .dark {

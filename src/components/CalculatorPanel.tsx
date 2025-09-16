@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SliderInput from "./SliderInput";
+import SimpleInput from "./SimpleInput";
 
 interface LoanType {
   id: string;
@@ -42,31 +42,9 @@ const CalculatorPanel = ({
     setInterestRate(type.rate);
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-JM', {
-      style: 'currency',
-      currency: 'JMD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount);
-  };
-
-  const formatTerm = (months: number) => {
-    const years = Math.floor(months / 12);
-    const remainingMonths = months % 12;
-    
-    if (years === 0) {
-      return `${months} months`;
-    } else if (remainingMonths === 0) {
-      return `${years} ${years === 1 ? 'year' : 'years'}`;
-    } else {
-      return `${years}y ${remainingMonths}m`;
-    }
-  };
-
   return (
-    <div className="bg-card rounded-2xl p-8 shadow-card">
-      <h3 className="text-2xl font-bold text-card-foreground mb-2">
+    <div className="bg-card rounded-lg p-8 shadow-card">
+      <h3 className="text-2xl font-semibold text-card-foreground mb-2">
         Loan Calculator
       </h3>
       <p className="text-muted-foreground mb-8">
@@ -74,18 +52,18 @@ const CalculatorPanel = ({
       </p>
 
       <div className="mb-8">
-        <label className="block mb-2 font-semibold text-card-foreground">
+        <label className="block mb-3 font-medium text-card-foreground">
           Select a loan type
         </label>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="flex gap-3 flex-wrap">
           {loanTypes.map((type) => (
             <button
               key={type.id}
               onClick={() => handleLoanTypeSelect(type)}
-              className={`p-3 border-2 rounded-full text-center cursor-pointer text-sm font-medium transition-all duration-300 ${
+              className={`px-6 py-3 border border-border rounded-full text-sm font-medium transition-all duration-200 ${
                 selectedLoanType === type.id
-                  ? "border-primary bg-gradient-primary text-primary-foreground"
-                  : "border-border bg-card text-card-foreground hover:border-primary hover:-translate-y-0.5 hover:shadow-elegant"
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-card text-card-foreground hover:border-primary hover:text-primary"
               }`}
             >
               {type.name}
@@ -94,54 +72,29 @@ const CalculatorPanel = ({
         </div>
       </div>
 
-      <SliderInput
+      <SimpleInput
         label="Loan Amount"
         value={loanAmount}
         onChange={setLoanAmount}
-        min={10000}
-        max={10000000}
-        step={10000}
         prefix="$"
         suffix="JMD"
         tooltip="The total amount you want to borrow"
-        formatValue={formatCurrency}
       />
 
-      <SliderInput
-        label="Loan Term"
+      <SimpleInput
+        label="How long"
         value={loanTerm}
         onChange={setLoanTerm}
-        min={6}
-        max={360}
-        step={6}
-        suffix="months"
-        tooltip="How long to repay the loan"
-        formatValue={formatTerm}
+        tooltip="How long to repay the loan in months"
       />
 
-      <SliderInput
+      <SimpleInput
         label="Initial Deposit"
         value={deposit}
         onChange={setDeposit}
-        min={0}
-        max={2000000}
-        step={10000}
         prefix="$"
         suffix="JMD"
         tooltip="Upfront payment to reduce loan amount"
-        formatValue={formatCurrency}
-      />
-
-      <SliderInput
-        label="Interest Rate"
-        value={interestRate}
-        onChange={setInterestRate}
-        min={1}
-        max={40}
-        step={0.5}
-        suffix="%"
-        tooltip="Annual percentage rate (APR)"
-        formatValue={(value) => `${value.toFixed(1)}%`}
       />
     </div>
   );
