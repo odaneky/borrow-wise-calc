@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
+import Header from "../components/Header";
 import { Calculator, TrendingUp, PiggyBank, Target, Shield, Smartphone } from "lucide-react";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      <Header />
       
       {/* Hero Section */}
       <section className="relative px-6 pt-20 pb-16 text-center overflow-hidden">
