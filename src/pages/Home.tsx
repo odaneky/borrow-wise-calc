@@ -104,7 +104,7 @@ const Home = () => {
                     Description
                   </p>
                 </div>
-                <Link to="/loans">
+                <Link to="/tools?tool=loan">
                   <Button variant="secondary">
                     Go to Calculator
                   </Button>
@@ -124,7 +124,7 @@ const Home = () => {
                     Description
                   </p>
                 </div>
-                <Link to="/applications">
+                <Link to="/tools?tool=affordability">
                   <Button variant="secondary">
                     Check Affordability
                   </Button>

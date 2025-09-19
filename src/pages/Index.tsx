@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Toolbar from "@/components/Toolbar";
 import CalculatorPanel from "@/components/CalculatorPanel";
@@ -7,7 +8,16 @@ import AffordabilityCalculator from "@/components/AffordabilityCalculator";
 import AffordabilityResults from "@/components/AffordabilityResults";
 
 const Index = () => {
-  const [activeTool, setActiveTool] = useState("Loan Calculator");
+  const [searchParams] = useSearchParams();
+  const toolParam = searchParams.get('tool');
+  
+  // Set initial tool based on URL parameter
+  const getInitialTool = () => {
+    if (toolParam === 'affordability') return 'Affordability Calculator';
+    return 'Loan Calculator';
+  };
+  
+  const [activeTool, setActiveTool] = useState(getInitialTool());
   const [loanAmount, setLoanAmount] = useState(50000);
   const [loanTerm, setLoanTerm] = useState(60);
   const [deposit, setDeposit] = useState(0);
