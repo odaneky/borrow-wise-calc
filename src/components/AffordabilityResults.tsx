@@ -120,7 +120,7 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       {/* Main Affordability Display */}
       <div className="text-center mb-4 p-3 bg-white/5 rounded-2xl backdrop-blur-sm relative z-10">
         <div className="text-3xl font-bold mb-2 animate-pulse-slow bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">{formatCurrency(totalAffordable)}</div>
-        <div className="text-sm opacity-90 uppercase tracking-wide">What can afford?</div>
+        <div className="text-sm opacity-90 uppercase tracking-wide">What can you afford?</div>
         {maxMonthlyPayment > 0 && (
           <div className="mt-2 text-xs opacity-75">
             Based on {getFrequencyLabel()} income: {formatCurrency(totalIncome)} | 
