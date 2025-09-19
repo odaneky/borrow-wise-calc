@@ -1,5 +1,4 @@
 import { useState } from "react";
-import SimpleInput from "./SimpleInput";
 
 interface LoanType {
   id: string;
@@ -72,42 +71,143 @@ const CalculatorPanel = ({
         </div>
       </div>
 
-      <div className="space-y-3">
-        <SimpleInput
-          label="Loan Amount"
-          value={loanAmount}
-          onChange={setLoanAmount}
-          prefix="$"
-          suffix="JMD"
-          tooltip="The total amount you want to borrow"
-        />
-        
-        <SimpleInput
-          label="Loan Term"
-          value={loanTerm}
-          onChange={setLoanTerm}
-          suffix="months"
-          type="number"
-          tooltip="How long to repay the loan"
-        />
-        
-        <SimpleInput
-          label="Initial Deposit"
-          value={deposit}
-          onChange={setDeposit}
-          prefix="$"
-          suffix="JMD"
-          tooltip="Upfront payment to reduce loan amount"
-        />
-        
-        <SimpleInput
-          label="Interest Rate"
-          value={interestRate}
-          onChange={setInterestRate}
-          suffix="%"
-          type="number"
-          tooltip="Annual percentage rate (APR)"
-        />
+      <div className="space-y-4">
+        {/* Loan Amount */}
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Loan Amount</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+              <span className="text-gray-600 text-xs">$</span>
+              <input
+                type="number"
+                value={loanAmount}
+                onChange={(e) => setLoanAmount(parseInt(e.target.value) || 0)}
+                className="w-20 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                min="100000"
+                max="10000000"
+                step="100000"
+              />
+              <span className="text-gray-600 text-xs">JMD</span>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={100000}
+              max={10000000}
+              step={100000}
+              value={loanAmount}
+              onChange={(e) => setLoanAmount(parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <span>$100K</span>
+              <span>$10M</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Loan Term */}
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Loan Term</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+              <input
+                type="number"
+                value={loanTerm}
+                onChange={(e) => setLoanTerm(parseInt(e.target.value) || 12)}
+                className="w-12 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                min="12"
+                max="480"
+              />
+              <span className="text-gray-600 font-medium text-xs">months</span>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={12}
+              max={480}
+              step={12}
+              value={loanTerm}
+              onChange={(e) => setLoanTerm(parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <span>1 year</span>
+              <span>40 years</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Initial Deposit */}
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Initial Deposit</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+              <span className="text-gray-600 text-xs">$</span>
+              <input
+                type="number"
+                value={deposit}
+                onChange={(e) => setDeposit(parseInt(e.target.value) || 0)}
+                className="w-20 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                min="0"
+                max="5000000"
+                step="50000"
+              />
+              <span className="text-gray-600 text-xs">JMD</span>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={0}
+              max={5000000}
+              step={50000}
+              value={deposit}
+              onChange={(e) => setDeposit(parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <span>$0</span>
+              <span>$5M</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Interest Rate */}
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Interest Rate</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+              <input
+                type="number"
+                value={interestRate}
+                onChange={(e) => setInterestRate(parseFloat(e.target.value) || 6)}
+                className="w-12 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                min="1"
+                max="25"
+                step="0.5"
+              />
+              <span className="text-gray-600 font-medium text-xs">%</span>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={1}
+              max={25}
+              step={0.5}
+              value={interestRate}
+              onChange={(e) => setInterestRate(parseFloat(e.target.value))}
+              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <span>1%</span>
+              <span>25%</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
