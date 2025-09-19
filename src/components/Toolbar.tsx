@@ -5,8 +5,7 @@ const Toolbar = () => {
 
   const toolOptions = [
     "Loan Calculator",
-    "Affordability Calculator", 
-    "Refinance Calculator"
+    "Affordability Calculator"
   ];
 
   return (
@@ -14,7 +13,7 @@ const Toolbar = () => {
       <h2 className="text-slate-800 text-2xl font-bold mb-1">Tools</h2>
       <p className="text-slate-600 text-sm mb-4">Understand your financial options with our comprehensive calculators</p>
       
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex gap-4 flex-wrap justify-end">
         {toolOptions.map((tool) => (
           <button
             key={tool}
