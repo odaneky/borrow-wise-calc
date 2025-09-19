@@ -5,12 +5,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Applications", path: "/applications" },
-    { name: "Loans", path: "/loans" },
-    { name: "Tools", path: "/tools" }
-  ];
+  const navItems = [];
 
   const getActiveNav = () => {
     const currentPath = location.pathname;
@@ -44,13 +39,6 @@ const Header = () => {
         ))}
       </nav>
 
-      <div className="flex gap-3 items-center">
-        <div className="w-8 h-8 bg-header-foreground/20 rounded-full"></div>
-        <div className="w-8 h-8 bg-header-foreground/20 rounded-full"></div>
-        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg">
-          C
-        </div>
-      </div>
     </header>
   );
 };
