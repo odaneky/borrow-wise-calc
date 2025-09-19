@@ -1,7 +1,11 @@
 import { useState } from "react";
 
-const Toolbar = () => {
-  const [activeTool, setActiveTool] = useState("Loan Calculator");
+interface ToolbarProps {
+  activeTool: string;
+  setActiveTool: (tool: string) => void;
+}
+
+const Toolbar = ({ activeTool, setActiveTool }: ToolbarProps) => {
 
   const toolOptions = [
     "Loan Calculator",
