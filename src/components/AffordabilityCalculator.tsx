@@ -25,6 +25,8 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
     { id: '2', type: 'Car Loan', amount: 80000 },
     { id: '3', type: 'Utilities', amount: 40000 }
   ]);
+  const [newExpenseType, setNewExpenseType] = useState('Grocery');
+  const [newExpenseAmount, setNewExpenseAmount] = useState(0);
 
   const incomeTypes = ['Salary', 'Business Income', 'Rental Income', 'Investment Income', 'Other'];
   const expenseTypes = ['Grocery', 'Car Loan', 'Utilities', 'Insurance', 'Credit Card', 'Other'];
@@ -35,8 +37,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   };
 
   const addExpenseItem = () => {
-    const newId = (expenseItems.length + 1).toString();
-    setExpenseItems([...expenseItems, { id: newId, type: 'Grocery', amount: 0 }]);
+    if (newExpenseAmount > 0) {
+      const newId = (expenseItems.length + 1).toString();
+      setExpenseItems([...expenseItems, { id: newId, type: newExpenseType, amount: newExpenseAmount }]);
+      setNewExpenseAmount(0);
+    }
   };
 
   const updateIncomeItem = (id: string, field: 'type' | 'amount', value: string | number) => {
@@ -65,6 +70,43 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
   const totalIncome = incomeItems.reduce((sum, item) => sum + item.amount, 0);
   const totalExpenses = expenseItems.reduce((sum, item) => sum + item.amount, 0);
+
+  // Helper functions for expense tags
+  const getExpenseIcon = (type: string) => {
+    const icons: { [key: string]: string } = {
+      'Grocery': '🛒',
+      'Car Loan': '🚗',
+      'Utilities': '⚡',
+      'Insurance': '🛡️',
+      'Credit Card': '💳',
+      'Other': '📝'
+    };
+    return icons[type] || '📝';
+  };
+
+  const getExpenseColor = (type: string) => {
+    const colors: { [key: string]: string } = {
+      'Grocery': '#10b981',
+      'Car Loan': '#3b82f6',
+      'Utilities': '#f59e0b',
+      'Insurance': '#8b5cf6',
+      'Credit Card': '#ef4444',
+      'Other': '#6b7280'
+    };
+    return colors[type] || '#6b7280';
+  };
+
+  const getExpenseColorDark = (type: string) => {
+    const colors: { [key: string]: string } = {
+      'Grocery': '#059669',
+      'Car Loan': '#2563eb',
+      'Utilities': '#d97706',
+      'Insurance': '#7c3aed',
+      'Credit Card': '#dc2626',
+      'Other': '#4b5563'
+    };
+    return colors[type] || '#4b5563';
+  };
 
   // Calculate affordability and pass to parent
   useEffect(() => {
@@ -135,40 +177,60 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
           <div className="text-xl font-bold text-slate-800">${totalExpenses.toLocaleString()}</div>
         </div>
 
-        {expenseItems.map((item) => (
-          <div key={item.id} className="flex gap-3 mb-3 items-center">
-            <select
-              value={item.type}
-              onChange={(e) => updateExpenseItem(item.id, 'type', e.target.value)}
-              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+        {/* Expense Tags */}
+        <div className="flex flex-wrap gap-3 mb-4">
+          {expenseItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="expense-tag animate-bounce-in hover:animate-pulse"
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                background: `linear-gradient(135deg, ${getExpenseColor(item.type)}, ${getExpenseColorDark(item.type)})`
+              }}
             >
-              {expenseTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-            <input
-              type="number"
-              placeholder="Amount"
-              value={item.amount || ''}
-              onChange={(e) => updateExpenseItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
-              className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
-            />
-            <button
-              onClick={() => removeExpenseItem(item.id)}
-              className="w-10 h-10 text-red-500 hover:text-red-700 font-bold text-xl"
-              disabled={expenseItems.length === 1}
-            >
-              ×
-            </button>
-          </div>
-        ))}
+              <div className="flex items-center gap-2">
+                <span className="expense-icon">{getExpenseIcon(item.type)}</span>
+                <div className="flex flex-col">
+                  <span className="text-white text-sm font-medium">{item.type}</span>
+                  <span className="text-white/90 text-xs">${item.amount.toLocaleString()}</span>
+                </div>
+                <button
+                  onClick={() => removeExpenseItem(item.id)}
+                  className="text-white/80 hover:text-white ml-2 font-bold text-lg leading-none"
+                  disabled={expenseItems.length === 1}
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        <button
-          onClick={addExpenseItem}
-          className="w-full py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
-        >
-          Add
-        </button>
+        {/* Add New Expense */}
+        <div className="flex gap-3 mb-3">
+          <select
+            value={newExpenseType}
+            onChange={(e) => setNewExpenseType(e.target.value)}
+            className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+          >
+            {expenseTypes.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            placeholder="Amount"
+            value={newExpenseAmount || ''}
+            onChange={(e) => setNewExpenseAmount(parseFloat(e.target.value) || 0)}
+            className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+          />
+          <button
+            onClick={addExpenseItem}
+            className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
+          >
+            Add
+          </button>
+        </div>
       </div>
     </div>
   );
