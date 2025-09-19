@@ -230,7 +230,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
         <button
           onClick={addIncomeItem}
-          className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
+          className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
         >
           Add
         </button>
