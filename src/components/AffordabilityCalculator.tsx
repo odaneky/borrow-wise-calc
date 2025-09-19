@@ -19,12 +19,10 @@ interface AffordabilityProps {
 
 const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   const [incomeItems, setIncomeItems] = useState<IncomeItem[]>([
-    { id: '1', type: 'Salary', amount: 520000 }
+    { id: '1', type: 'Salary', amount: 0 }
   ]);
   const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([
-    { id: '1', type: 'Grocery', amount: 150000 },
-    { id: '2', type: 'Car Loan', amount: 80000 },
-    { id: '3', type: 'Utilities', amount: 40000 }
+    { id: '1', type: 'Grocery', amount: 0 }
   ]);
   const [newExpenseType, setNewExpenseType] = useState('Grocery');
   const [newExpenseAmount, setNewExpenseAmount] = useState(0);
