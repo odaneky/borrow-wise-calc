@@ -43,19 +43,19 @@ const CalculatorPanel = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg">
-      <h3 className="text-xl font-bold text-slate-800 mb-1">Loan Calculator</h3>
-      <p className="text-slate-600 mb-6">Work out your payments with precision</p>
+    <div className="bg-white rounded-2xl p-4 shadow-lg">
+      <h3 className="text-lg font-bold text-slate-800 mb-1">Loan Calculator</h3>
+      <p className="text-slate-600 mb-4">Work out your payments with precision</p>
 
       {/* Loan Type Selection */}
-      <div className="mb-6">
+      <div className="mb-4">
         <label className="block text-sm font-semibold text-slate-700 mb-2">Select a loan type</label>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {loanTypes.map((type) => (
             <button
               key={type.id}
               onClick={() => handleLoanTypeSelect(type)}
-              className={`relative p-3 rounded-full border-2 text-sm font-medium transition-all duration-300 ${
+              className={`relative py-2 px-3 rounded-full border-2 text-xs font-medium transition-all duration-300 ${
                 selectedLoanType === type.id
                   ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-500 transform scale-95 shadow-lg"
                   : "bg-white text-slate-700 border-gray-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 hover:shadow-md"
@@ -63,7 +63,7 @@ const CalculatorPanel = ({
             >
               {type.name}
               {selectedLoanType === type.id && (
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs">✓</span>
                 </div>
               )}
@@ -72,7 +72,7 @@ const CalculatorPanel = ({
         </div>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-3">
         <SimpleInput
           label="Loan Amount"
           value={loanAmount}

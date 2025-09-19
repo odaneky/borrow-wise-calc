@@ -50,14 +50,14 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 h-fit">
+    <div className="bg-white rounded-2xl p-4 shadow-lg border-2 border-gray-200 h-fit">
       {/* Loan Type Selection - Inline Cards */}
-      <div className="flex gap-3 mb-6 justify-center">
+      <div className="flex gap-2 mb-4 justify-center">
         {loanTypes.map((type) => (
           <button
             key={type.name}
             onClick={() => handleLoanTypeChange(type.name)}
-            className={`relative px-4 py-3 rounded-full border-2 font-medium transition-all duration-300 ${
+            className={`relative px-3 py-2 rounded-full border-2 font-medium text-xs transition-all duration-300 ${
               selectedLoanType === type.name
                 ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-500 transform scale-95 shadow-lg"
                 : "bg-white text-slate-700 border-gray-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 hover:shadow-md"
@@ -65,7 +65,7 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
           >
             {type.name}
             {selectedLoanType === type.name && (
-              <div className="absolute -top-2 -right-2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs">✓</span>
               </div>
             )}
@@ -74,32 +74,32 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       </div>
 
       {/* Main Affordability Display */}
-      <div className="text-center mb-6">
-        <div className="text-4xl font-bold text-gray-900 mb-2">{formatCurrency(totalAffordable)}</div>
-        <div className="text-lg text-gray-600">What can afford?</div>
+      <div className="text-center mb-4">
+        <div className="text-3xl font-bold text-gray-900 mb-1">{formatCurrency(totalAffordable)}</div>
+        <div className="text-base text-gray-600">What can afford?</div>
       </div>
 
       {/* Progress Bars */}
-      <div className="mb-6 space-y-3">
+      <div className="mb-4 space-y-2">
         <div>
           <div className="flex justify-between text-sm text-gray-700 mb-2">
             <span className="font-medium">Income</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
-              className="bg-gray-500 h-4 rounded-full transition-all duration-500"
+              className="bg-gray-500 h-3 rounded-full transition-all duration-500"
               style={{ width: '75%' }}
             ></div>
           </div>
         </div>
         
         <div>
-          <div className="flex justify-between text-sm text-gray-700 mb-2">
+          <div className="flex justify-between text-sm text-gray-700 mb-1">
             <span className="font-medium">Expense</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
-              className="bg-gray-400 h-4 rounded-full transition-all duration-500"
+              className="bg-gray-400 h-3 rounded-full transition-all duration-500"
               style={{ 
                 width: totalIncome > 0 ? `${Math.min(75, (totalExpenses / totalIncome) * 75)}%` : '0%' 
               }}
@@ -109,27 +109,27 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       </div>
 
       {/* Monthly Payment */}
-      <div className="mb-6">
-        <h4 className="text-lg font-semibold text-gray-900 mb-1">Monthly Payment</h4>
-        <div className="text-2xl font-bold text-gray-900">{formatCurrency(maxMonthlyPayment)}</div>
+      <div className="mb-4">
+        <h4 className="text-base font-semibold text-gray-900 mb-1">Monthly Payment</h4>
+        <div className="text-xl font-bold text-gray-900">{formatCurrency(maxMonthlyPayment)}</div>
       </div>
 
       {/* Interactive Controls */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Loan Tenure */}
-        <div className="bg-gray-50 p-4 rounded-xl">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-base font-semibold text-gray-800">Loan Tenure</span>
-            <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-lg border">
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Loan Tenure</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <input
                 type="number"
                 value={Math.floor(loanTerm / 12)}
                 onChange={(e) => setLoanTerm(parseInt(e.target.value) * 12 || 120)}
-                className="w-12 text-center font-semibold text-gray-800 bg-transparent outline-none text-sm"
+                className="w-10 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
                 min="1"
                 max="40"
               />
-              <span className="text-gray-600 font-medium text-sm">years</span>
+              <span className="text-gray-600 font-medium text-xs">years</span>
             </div>
           </div>
           <div className="relative">
@@ -150,16 +150,16 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
         </div>
 
         {/* Initial Deposit */}
-        <div className="bg-gray-50 p-4 rounded-xl">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-base font-semibold text-gray-800">Initial Deposit</span>
-            <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-lg border">
-              <span className="text-gray-600 text-sm">$</span>
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Initial Deposit</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+              <span className="text-gray-600 text-xs">$</span>
               <input
                 type="number"
                 value={downPayment}
                 onChange={(e) => setDownPayment(parseInt(e.target.value) || 100000)}
-                className="w-20 text-center font-semibold text-gray-800 bg-transparent outline-none text-sm"
+                className="w-16 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
                 min="100000"
                 max="5000000"
                 step="100000"
@@ -184,20 +184,20 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
         </div>
 
         {/* Interest Rate */}
-        <div className="bg-gray-50 p-4 rounded-xl">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-base font-semibold text-gray-800">Interest Rate</span>
-            <div className="flex items-center gap-2 bg-white px-3 py-1 rounded-lg border">
+        <div className="bg-gray-50 p-3 rounded-xl">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-gray-800">Interest Rate</span>
+            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <input
                 type="number"
                 value={interestRate}
                 onChange={(e) => setInterestRate(parseFloat(e.target.value) || 6)}
-                className="w-12 text-center font-semibold text-gray-800 bg-transparent outline-none text-sm"
+                className="w-10 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
                 min="1"
                 max="25"
                 step="0.5"
               />
-              <span className="text-gray-600 font-medium text-sm">%</span>
+              <span className="text-gray-600 font-medium text-xs">%</span>
             </div>
           </div>
           <div className="relative">
