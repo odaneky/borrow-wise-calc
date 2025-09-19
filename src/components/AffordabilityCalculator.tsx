@@ -21,9 +21,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   const [incomeItems, setIncomeItems] = useState<IncomeItem[]>([
     { id: '1', type: 'Salary', amount: 0 }
   ]);
-  const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([
-    { id: '1', type: 'Grocery', amount: 0 }
-  ]);
+  const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
   const [newExpenseType, setNewExpenseType] = useState('Grocery');
   const [newExpenseAmount, setNewExpenseAmount] = useState(0);
   const [newCustomName, setNewCustomName] = useState('');
@@ -38,16 +36,24 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
   const addExpenseItem = () => {
     if (newExpenseAmount > 0) {
-      const newId = (expenseItems.length + 1).toString();
-      const newItem: ExpenseItem = {
-        id: newId,
-        type: newExpenseType,
-        amount: newExpenseAmount,
-        customName: newExpenseType === 'Other' ? newCustomName : undefined
-      };
-      setExpenseItems([...expenseItems, newItem]);
-      setNewExpenseAmount(0);
-      setNewCustomName('');
+      // Check for duplicates (excluding custom named "Other" items)
+      const isDuplicate = expenseItems.some(item => 
+        item.type === newExpenseType && 
+        (newExpenseType !== 'Other' || item.customName === newCustomName)
+      );
+      
+      if (!isDuplicate) {
+        const newId = (expenseItems.length + 1).toString();
+        const newItem: ExpenseItem = {
+          id: newId,
+          type: newExpenseType,
+          amount: newExpenseAmount,
+          customName: newExpenseType === 'Other' ? newCustomName : undefined
+        };
+        setExpenseItems([...expenseItems, newItem]);
+        setNewExpenseAmount(0);
+        setNewCustomName('');
+      }
     }
   };
 
