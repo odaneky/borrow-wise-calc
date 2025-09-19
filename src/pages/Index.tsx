@@ -11,12 +11,12 @@ const Index = () => {
   const [interestRate, setInterestRate] = useState(8.5);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <Toolbar />
-      
-      <main className="max-w-7xl mx-auto px-8 py-8">
-        <div className="grid lg:grid-cols-2 gap-8">
+    <div className="min-h-screen p-5">
+      <div className="max-w-7xl mx-auto glass-effect rounded-[20px] shadow-2xl overflow-hidden">
+        <Header />
+        <Toolbar />
+        
+        <main className="grid lg:grid-cols-2 gap-10 p-10">
           <CalculatorPanel
             loanAmount={loanAmount}
             setLoanAmount={setLoanAmount}
@@ -34,8 +34,8 @@ const Index = () => {
             deposit={deposit}
             interestRate={interestRate}
           />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };

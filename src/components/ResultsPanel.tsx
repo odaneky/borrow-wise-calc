@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 interface ResultsPanelProps {
@@ -9,6 +9,9 @@ interface ResultsPanelProps {
 }
 
 const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPanelProps) => {
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const calculations = useMemo(() => {
     const principal = Math.max(0, loanAmount - deposit);
     
@@ -67,82 +70,153 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
     }).format(amount);
   };
 
-  const handleApply = () => {
+  const showMessage = (type: 'success' | 'error', text: string) => {
+    setMessage({ type, text });
+    setTimeout(() => setMessage(null), 5000);
+  };
+
+  const handleApply = async () => {
+    setIsLoading(true);
     const principal = Math.max(0, loanAmount - deposit);
-    alert(`Application for loan of ${formatCurrency(principal)} has been initiated. A representative will contact you shortly.`);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      showMessage('success', `Application submitted successfully! Reference #LN${Date.now()}`);
+    } catch {
+      showMessage('error', 'Failed to submit application. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAmortization = () => {
-    alert('Amortization breakdown feature coming soon!');
+    const principal = calculations.totalLoan;
+    const rate = interestRate / 100 / 12;
+    const months = loanTerm;
+    
+    if (principal <= 0 || months <= 0 || rate <= 0) {
+      showMessage('error', 'Please enter valid loan details first.');
+      return;
+    }
+    
+    // Create a simple alert for now
+    alert(`Amortization schedule for ${formatCurrency(principal)} loan over ${months} months at ${interestRate}% APR would be displayed here.`);
   };
 
   return (
-    <div className="bg-panel-dark rounded-lg p-8 text-panel-dark-foreground">
+    <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-8 text-white relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="animate-float w-full h-full bg-gradient-to-r from-transparent via-white to-transparent" 
+             style={{
+               backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+               backgroundSize: '20px 20px'
+             }}>
+        </div>
+      </div>
+
+      {/* Message display */}
+      {message && (
+        <div className={`mb-6 p-4 rounded-lg animate-slide-in ${
+          message.type === 'success' 
+            ? 'bg-green-500/20 border border-green-500/50 text-green-100' 
+            : 'bg-red-500/20 border border-red-500/50 text-red-100'
+        }`}>
+          {message.text}
+        </div>
+      )}
+
       {/* Monthly Payment Display */}
-      <div className="text-center mb-8">
-        <div className="text-5xl font-bold mb-2 text-primary">
+      <div className="text-center mb-8 p-5 bg-white/5 rounded-2xl backdrop-blur-sm relative z-10">
+        <div className="text-5xl font-bold mb-3 animate-pulse-slow bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
           {formatCurrency(calculations.monthlyPayment)}
         </div>
-        <div className="text-base opacity-80">Monthly Payment</div>
+        <div className="text-base opacity-90 uppercase tracking-wide">Monthly Payment</div>
       </div>
 
-      {/* Principal and Interest Cards */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-panel-darker rounded-lg p-4">
-          <div className="text-sm opacity-80 mb-2">Principal</div>
-          <div className="h-2 bg-panel-dark rounded-full overflow-hidden mb-3">
+      {/* Loan Summary */}
+      <div className="bg-white/8 rounded-xl p-5 mb-6 relative z-10">
+        <div className="flex justify-between items-center py-3 border-b border-white/10">
+          <span className="text-sm opacity-80">Total Loan Amount</span>
+          <span className="font-semibold">{formatCurrency(calculations.totalLoan)}</span>
+        </div>
+        <div className="flex justify-between items-center py-3 border-b border-white/10">
+          <span className="text-sm opacity-80">Total Interest</span>
+          <span className="font-semibold">{formatCurrency(calculations.totalInterest)}</span>
+        </div>
+        <div className="flex justify-between items-center py-3">
+          <span className="text-sm opacity-80">Total Amount to Pay</span>
+          <span className="font-semibold">{formatCurrency(calculations.totalPayment)}</span>
+        </div>
+      </div>
+
+      {/* Principal and Interest Breakdown */}
+      <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
+        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+          <div className="text-xs opacity-80 mb-2 uppercase tracking-wide">Principal</div>
+          <div className="text-lg font-semibold mb-3">{formatCurrency(calculations.monthlyPrincipalPayment)}</div>
+          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-primary rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-700 breakdown-fill"
               style={{ width: `${calculations.principalPercentage}%` }}
-            ></div>
+            />
           </div>
-          <div className="text-lg font-semibold">{formatCurrency(calculations.monthlyPrincipalPayment)}</div>
         </div>
-        <div className="bg-panel-darker rounded-lg p-4">
-          <div className="text-sm opacity-80 mb-2">Interest</div>
-          <div className="h-2 bg-panel-dark rounded-full overflow-hidden mb-3">
+        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+          <div className="text-xs opacity-80 mb-2 uppercase tracking-wide">Interest</div>
+          <div className="text-lg font-semibold mb-3">{formatCurrency(calculations.monthlyInterestPayment)}</div>
+          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-destructive rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-700 breakdown-fill"
               style={{ width: `${calculations.interestPercentage}%` }}
-            ></div>
+            />
           </div>
-          <div className="text-lg font-semibold">{formatCurrency(calculations.monthlyInterestPayment)}</div>
         </div>
       </div>
 
-      {/* Commitment Fee and Payback Date */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="bg-panel-darker rounded-lg p-4">
-          <div className="text-sm opacity-80 mb-1">Commitment Fee</div>
-          <div className="text-lg font-semibold">$0</div>
+      {/* Additional Info */}
+      <div className="grid grid-cols-2 gap-4 mb-8 relative z-10">
+        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Effective Rate</div>
+          <div className="text-lg font-semibold">{calculations.effectiveRate.toFixed(2)}%</div>
         </div>
-        <div className="bg-panel-darker rounded-lg p-4">
-          <div className="text-sm opacity-80 mb-1">Payback Date</div>
-          <div className="text-lg font-semibold">-</div>
+        <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm">
+          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Payback Date</div>
+          <div className="text-lg font-semibold">
+            {calculations.paybackDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+          </div>
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="space-y-3 mb-6">
+      <div className="flex gap-4 mb-6 relative z-10">
         <Button 
           onClick={handleApply}
-          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-medium"
+          disabled={isLoading}
+          className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 rounded-xl font-semibold text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
         >
-          Apply Now
+          {isLoading ? (
+            <>
+              Applying...
+              <span className="loading-spinner"></span>
+            </>
+          ) : (
+            'Apply Now'
+          )}
         </Button>
         <Button 
           onClick={handleAmortization}
           variant="outline"
-          className="w-full bg-transparent border border-panel-dark-foreground/20 text-panel-dark-foreground hover:bg-panel-dark-foreground/10 py-3 rounded-lg font-medium"
+          className="flex-1 bg-white/10 border border-white/20 text-white hover:bg-white/20 py-4 rounded-xl font-semibold text-base backdrop-blur-sm"
         >
-          View Amortized Breakdown
+          View Amortization
         </Button>
       </div>
 
       {/* Disclaimer */}
-      <div className="text-xs opacity-70 leading-relaxed">
-        <strong>Disclaimer:</strong> This calculator provides estimates only. Actual loan terms, rates, and 
-        fees may vary based on your creditworthiness and the lender's policies.
+      <div className="bg-white/10 rounded-xl p-4 text-xs opacity-80 leading-relaxed relative z-10 backdrop-blur-sm">
+        <strong>Disclaimer:</strong> This calculator provides estimates only. Actual loan terms may vary based on your credit profile and lender requirements.
       </div>
     </div>
   );
