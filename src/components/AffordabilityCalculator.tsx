@@ -136,17 +136,35 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   }, [totalIncome, totalExpenses, onCalculate]);
 
   return (
-    <div className="calculator-panel">
-      <div className="mb-6">
-        <h3 className="calculator-title">Affordability Calculator</h3>
-        <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
+    <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-4 text-white relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="animate-float w-full h-full bg-gradient-to-r from-transparent via-white to-transparent" 
+             style={{
+               backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+               backgroundSize: '20px 20px'
+             }}>
+        </div>
+      </div>
+
+      <div className="mb-6 relative z-10">
+        <h3 className="text-lg font-bold text-white mb-1">Affordability Calculator</h3>
+        <p className="text-white/80 mb-4">Complete the form below and see what you can afford</p>
       </div>
 
       {/* Income Details Section */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-3">
-          <h4 className="text-lg font-semibold text-slate-700">Income Details</h4>
-          <div className="text-xl font-bold text-blue-600">${totalIncome.toLocaleString()}</div>
+      <div className="mb-6 relative z-10">
+        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm mb-3">
+          <div className="flex justify-between items-center mb-2">
+            <div className="text-xs opacity-80 uppercase tracking-wide">Total Income</div>
+            <div className="text-xl font-bold text-white">${totalIncome.toLocaleString()}</div>
+          </div>
+          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-700"
+              style={{ width: `${totalIncome > 0 ? Math.min((totalIncome / (totalIncome + totalExpenses || 1)) * 100, 100) : 0}%` }}
+            />
+          </div>
         </div>
 
         {incomeItems.map((item) => (
@@ -154,10 +172,10 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
             <select
               value={item.type}
               onChange={(e) => updateIncomeItem(item.id, 'type', e.target.value)}
-              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="flex-1 px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white focus:border-blue-400 focus:outline-none backdrop-blur-sm"
             >
               {incomeTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
+                <option key={type} value={type} className="text-slate-700">{type}</option>
               ))}
             </select>
             <input
@@ -165,11 +183,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Amount"
               value={item.amount || ''}
               onChange={(e) => updateIncomeItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
-              className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-32 px-3 py-2 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/60 focus:border-blue-400 focus:outline-none backdrop-blur-sm"
             />
             <button
               onClick={() => removeIncomeItem(item.id)}
-              className="w-8 h-8 text-red-500 hover:text-red-700 font-bold text-lg"
+              className="w-8 h-8 text-red-400 hover:text-red-300 font-bold text-lg"
               disabled={incomeItems.length === 1}
             >
               ×
@@ -179,17 +197,25 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
         <button
           onClick={addIncomeItem}
-          className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
+          className="w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-colors backdrop-blur-sm"
         >
           Add
         </button>
       </div>
 
       {/* Expense Details Section */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-3">
-          <h4 className="text-lg font-semibold text-slate-700">Expense Details</h4>
-          <div className="text-xl font-bold text-red-600">${totalExpenses.toLocaleString()}</div>
+      <div className="mb-6 relative z-10">
+        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm mb-3">
+          <div className="flex justify-between items-center mb-2">
+            <div className="text-xs opacity-80 uppercase tracking-wide">Total Expenses</div>
+            <div className="text-xl font-bold text-white">${totalExpenses.toLocaleString()}</div>
+          </div>
+          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-700"
+              style={{ width: `${totalExpenses > 0 ? Math.min((totalExpenses / (totalIncome + totalExpenses || 1)) * 100, 100) : 0}%` }}
+            />
+          </div>
         </div>
 
         {/* Expense Tags */}
@@ -229,10 +255,10 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
             <select
               value={newExpenseType}
               onChange={(e) => setNewExpenseType(e.target.value)}
-              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="flex-1 px-3 py-2 bg-white/10 border-2 border-white/20 rounded-xl text-white focus:border-red-400 focus:outline-none backdrop-blur-sm"
             >
               {expenseTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
+                <option key={type} value={type} className="text-slate-700">{type}</option>
               ))}
             </select>
             <input
@@ -240,11 +266,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Amount"
               value={newExpenseAmount || ''}
               onChange={(e) => setNewExpenseAmount(parseFloat(e.target.value) || 0)}
-              className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-32 px-3 py-2 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/60 focus:border-red-400 focus:outline-none backdrop-blur-sm"
             />
             <button
               onClick={addExpenseItem}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
+              className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
             >
               Add
             </button>
@@ -257,7 +283,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Enter expense name"
               value={newCustomName}
               onChange={(e) => setNewCustomName(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-full px-3 py-2 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/60 focus:border-red-400 focus:outline-none backdrop-blur-sm"
             />
           )}
         </div>
