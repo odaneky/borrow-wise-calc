@@ -24,7 +24,7 @@ const Home = () => {
           </h1>
           
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Calculate loans, assess affordability, and plan your financial future with our intelligent tools designed for smart decision-making.
+            <Link to="/tools" className="text-primary hover:underline">Calculate loans</Link>, assess affordability, and plan your financial future with our intelligent tools designed for smart decision-making.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -61,9 +61,11 @@ const Home = () => {
                 <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4 group-hover:bg-primary/20 transition-colors">
                   <Calculator className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Smart Loan Calculator</h3>
+                <h3 className="text-xl font-semibold mb-3">
+                  <Link to="/tools" className="hover:text-primary transition-colors">Smart Loan Calculator</Link>
+                </h3>
                 <p className="text-muted-foreground mb-4">
-                  Calculate monthly payments, interest costs, and create detailed amortization schedules for any loan type.
+                  <Link to="/tools" className="hover:text-primary transition-colors">Calculate monthly payments</Link>, interest costs, and create detailed amortization schedules for any loan type.
                 </p>
                 <div className="flex items-center text-sm text-primary font-medium">
                   Available Now
@@ -78,7 +80,9 @@ const Home = () => {
                 <div className="bg-success/10 p-3 rounded-lg w-fit mb-4 group-hover:bg-success/20 transition-colors">
                   <PiggyBank className="h-8 w-8 text-success" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Affordability Assessment</h3>
+                <h3 className="text-xl font-semibold mb-3">
+                  <Link to="/tools" className="hover:text-primary transition-colors">Affordability Assessment</Link>
+                </h3>
                 <p className="text-muted-foreground mb-4">
                   Determine what you can afford based on your income, expenses, and financial goals.
                 </p>

@@ -30,12 +30,15 @@ const Header = () => {
         ? "bg-card/70 backdrop-blur-md border-b border-border/50 text-foreground" 
         : "bg-gradient-to-r from-slate-700 to-slate-600 text-header-foreground"
     }`}>
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg cursor-pointer hover:rotate-360 transition-transform duration-300 ${
-        isLandingPage
-          ? "bg-gradient-to-br from-primary to-primary-dark text-white"
-          : "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
-      }`}>
-        $
+      <div className="flex items-center gap-3">
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg cursor-pointer hover:rotate-360 transition-transform duration-300 ${
+          isLandingPage
+            ? "bg-gradient-to-br from-primary to-primary-dark text-white"
+            : "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
+        }`} onClick={() => navigate("/")}>
+          $
+        </div>
+        <span className="text-xl font-bold">Credeer</span>
       </div>
       
       {!isLandingPage && (
@@ -55,18 +58,6 @@ const Header = () => {
           ))}
         </nav>
       )}
-
-      <div className="flex gap-3 items-center">
-        <div className={`w-8 h-8 rounded-full ${
-          isLandingPage ? "bg-muted/50" : "bg-header-foreground/20"
-        }`}></div>
-        <div className={`w-8 h-8 rounded-full ${
-          isLandingPage ? "bg-muted/50" : "bg-header-foreground/20"
-        }`}></div>
-        <div className="w-10 h-10 bg-gradient-to-br from-success to-success rounded-full flex items-center justify-center text-success-foreground font-semibold text-sm shadow-lg">
-          C
-        </div>
-      </div>
     </header>
   );
 };
