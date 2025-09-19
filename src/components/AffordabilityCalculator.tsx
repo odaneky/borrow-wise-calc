@@ -231,7 +231,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
         <div className="flex justify-end">
           <button
             onClick={addIncomeItem}
-            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
+            className="w-16 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105 text-sm"
           >
             Add
           </button>
@@ -297,7 +297,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
             />
             <button
               onClick={addExpenseItem}
-              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
+              className="w-16 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105 text-sm"
             >
               Add
             </button>
