@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Performance optimizations for critical request chains -->
+    <link rel="dns-prefetch" href="//storage.googleapis.com">
+    <link rel="preconnect" href="https://storage.googleapis.com" crossorigin>
+    <link rel="preload" href="/src/index.css" as="style">
+    <link rel="preload" href="/src/main.tsx" as="script">
+    
     <title>Credeer</title>
     <meta name="description" content="Calculate loan payments with our comprehensive loan calculator. Get instant results for auto loans, mortgages, personal loans with interactive sliders and amortization schedules.">
     <meta name="author" content="Financial Tools" />
