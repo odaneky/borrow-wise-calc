@@ -154,22 +154,22 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
       {/* Principal and Interest Breakdown */}
       <div className="grid grid-cols-2 gap-3 mb-4 relative z-10">
         <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Principal</div>
-          <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.monthlyPrincipalPayment)}</div>
+          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Total Principal</div>
+          <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.totalLoan)}</div>
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-700 breakdown-fill"
-              style={{ width: `${calculations.principalPercentage}%` }}
+              style={{ width: `${(calculations.totalLoan / calculations.totalPayment) * 100}%` }}
             />
           </div>
         </div>
         <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Interest</div>
-          <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.monthlyInterestPayment)}</div>
+          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Total Interest</div>
+          <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.totalInterest)}</div>
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
               className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-700 breakdown-fill"
-              style={{ width: `${calculations.interestPercentage}%` }}
+              style={{ width: `${(calculations.totalInterest / calculations.totalPayment) * 100}%` }}
             />
           </div>
         </div>
