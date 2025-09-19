@@ -37,56 +37,63 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen p-5">
-      <div className="max-w-7xl mx-auto glass-effect rounded-[20px] shadow-2xl overflow-hidden relative">
-        {/* Profile Icon */}
-        <div className="absolute top-4 right-4 z-10">
-          <div 
-            className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-transform duration-300 shadow-lg"
-            onClick={() => isLoggedIn ? handleLogout() : setShowLoginModal(!showLoginModal)}
-          >
-            <User size={20} />
-          </div>
-          
-          {/* Login Modal */}
-          {showLoginModal && !isLoggedIn && (
-            <Card className="absolute top-14 right-0 w-80 shadow-xl border-2">
+    <div className="min-h-screen p-5 relative">
+      {/* Profile Icon - Fixed positioning */}
+      <div className="fixed top-6 right-6 z-50">
+        <div 
+          className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white cursor-pointer hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl border-2 border-white/20"
+          onClick={() => isLoggedIn ? handleLogout() : setShowLoginModal(!showLoginModal)}
+        >
+          <User size={20} />
+        </div>
+        
+        {/* Login Modal */}
+        {showLoginModal && !isLoggedIn && (
+          <div className="absolute top-16 right-0 z-40">
+            <Card className="w-80 shadow-2xl border-2 border-border/50 bg-card/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="text-center mb-4">
-                  <LogIn className="w-12 h-12 mx-auto mb-3 text-primary" />
-                  <h3 className="text-lg font-semibold">Welcome Back</h3>
-                  <p className="text-muted-foreground text-sm">Sign in to access your account</p>
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <LogIn className="w-8 h-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground">Welcome Back</h3>
+                  <p className="text-muted-foreground text-sm mt-1">Sign in to access your financial tools</p>
                 </div>
                 
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Email</label>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Email Address</label>
                     <input 
                       type="email" 
-                      className="w-full px-3 py-2 border border-input rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="your@email.com"
+                      className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-background text-foreground placeholder:text-muted-foreground"
+                      placeholder="Enter your email"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Password</label>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Password</label>
                     <input 
                       type="password" 
-                      className="w-full px-3 py-2 border border-input rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="••••••••"
+                      className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-background text-foreground placeholder:text-muted-foreground"
+                      placeholder="Enter your password"
                     />
                   </div>
                   
                   <Button 
                     onClick={handleLogin}
-                    className="w-full"
+                    className="w-full py-3 mt-6 font-semibold"
+                    size="lg"
                   >
                     Sign In
                   </Button>
                   
-                  <div className="text-center">
+                  <div className="flex justify-between items-center mt-4 pt-4 border-t border-border">
+                    <button className="text-sm text-primary hover:underline font-medium">
+                      Forgot password?
+                    </button>
                     <button 
                       onClick={() => setShowLoginModal(false)}
-                      className="text-sm text-muted-foreground hover:text-primary"
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                     >
                       Cancel
                     </button>
@@ -94,9 +101,11 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
 
+      <div className="max-w-7xl mx-auto glass-effect rounded-[20px] shadow-2xl overflow-hidden">
         {isLoggedIn && <Header />}
         <Toolbar activeTool={activeTool} setActiveTool={setActiveTool} />
         
