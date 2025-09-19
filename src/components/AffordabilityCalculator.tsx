@@ -146,7 +146,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
           <h4 className="text-lg font-semibold text-slate-700">Income Details</h4>
-          <div className="text-xl font-bold text-slate-800">${totalIncome.toLocaleString()}</div>
+          <div className="text-xl font-bold text-blue-600">${totalIncome.toLocaleString()}</div>
         </div>
 
         {incomeItems.map((item) => (
@@ -189,7 +189,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
           <h4 className="text-lg font-semibold text-slate-700">Expense Details</h4>
-          <div className="text-xl font-bold text-slate-800">${totalExpenses.toLocaleString()}</div>
+          <div className="text-xl font-bold text-red-600">${totalExpenses.toLocaleString()}</div>
         </div>
 
         {/* Expense Tags */}
