@@ -38,25 +38,23 @@ const Header = () => {
         $
       </div>
       
-      <nav className="flex gap-2 flex-wrap">
-        {navItems.map((item) => (
-          <button
-            key={item.name}
-            onClick={() => handleNavClick(item)}
-            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-              getActiveNav() === item.name
-                ? isLandingPage
-                  ? "bg-primary text-primary-foreground shadow-lg"
-                  : "bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg"
-                : isLandingPage
-                  ? "bg-muted/50 text-foreground hover:bg-muted hover:-translate-y-0.5"
+      {!isLandingPage && (
+        <nav className="flex gap-2 flex-wrap">
+          {navItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => handleNavClick(item)}
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                getActiveNav() === item.name
+                  ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg"
                   : "bg-white/10 text-white hover:bg-white/20 hover:-translate-y-0.5"
-            }`}
-          >
-            {item.name}
-          </button>
-        ))}
-      </nav>
+              }`}
+            >
+              {item.name}
+            </button>
+          ))}
+        </nav>
+      )}
 
       <div className="flex gap-3 items-center">
         <div className={`w-8 h-8 rounded-full ${
