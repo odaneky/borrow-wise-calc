@@ -4,6 +4,7 @@ interface IncomeItem {
   id: string;
   type: string;
   amount: number;
+  frequency: 'annual' | 'monthly' | 'biweekly' | 'weekly';
 }
 
 interface ExpenseItem {
@@ -18,15 +19,16 @@ interface AffordabilityProps {
 }
 
 const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
-  const [incomeItems, setIncomeItems] = useState<IncomeItem[]>([
-    { id: '1', type: 'Salary', amount: 0 }
-  ]);
+  const [incomeItems, setIncomeItems] = useState<IncomeItem[]>([]);
   const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([]);
   const [newExpenseType, setNewExpenseType] = useState('Grocery');
   const [newExpenseAmount, setNewExpenseAmount] = useState(0);
   const [newCustomName, setNewCustomName] = useState('');
+  const [newIncomeType, setNewIncomeType] = useState('Salary');
+  const [newIncomeAmount, setNewIncomeAmount] = useState(0);
+  const [newIncomeFrequency, setNewIncomeFrequency] = useState<'annual' | 'monthly' | 'biweekly' | 'weekly'>('monthly');
 
-  const incomeTypes = ['Salary', 'Business Income', 'Rental Income', 'Investment Income', 'Other'];
+  const incomeTypes = ['Salary', 'Business Income', 'Rental Income', 'Investment Income', 'Freelancing', 'Pension', 'Benefits', 'Other'];
   const expenseTypes = [
     'Grocery', 'Car Loan', 'Utilities', 'Insurance', 'Credit Card', 
     'Rent/Mortgage', 'Phone Bill', 'Internet', 'Gas/Fuel', 'Medical', 
@@ -36,8 +38,17 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   ];
 
   const addIncomeItem = () => {
-    const newId = (incomeItems.length + 1).toString();
-    setIncomeItems([...incomeItems, { id: newId, type: 'Salary', amount: 0 }]);
+    if (newIncomeAmount > 0) {
+      const newId = (incomeItems.length + 1).toString();
+      const newItem: IncomeItem = {
+        id: newId,
+        type: newIncomeType,
+        amount: newIncomeAmount,
+        frequency: newIncomeFrequency
+      };
+      setIncomeItems([...incomeItems, newItem]);
+      setNewIncomeAmount(0);
+    }
   };
 
   const addExpenseItem = () => {
@@ -63,7 +74,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
     }
   };
 
-  const updateIncomeItem = (id: string, field: 'type' | 'amount', value: string | number) => {
+  const updateIncomeItem = (id: string, field: 'type' | 'amount' | 'frequency', value: string | number) => {
     setIncomeItems(items => items.map(item => 
       item.id === id ? { ...item, [field]: value } : item
     ));
@@ -76,9 +87,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   };
 
   const removeIncomeItem = (id: string) => {
-    if (incomeItems.length > 1) {
-      setIncomeItems(items => items.filter(item => item.id !== id));
-    }
+    setIncomeItems(items => items.filter(item => item.id !== id));
   };
 
   const removeExpenseItem = (id: string) => {
@@ -87,10 +96,72 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
     }
   };
 
-  const totalIncome = incomeItems.reduce((sum, item) => sum + item.amount, 0);
+  // Convert income to monthly amounts
+  const convertToMonthly = (amount: number, frequency: string) => {
+    switch (frequency) {
+      case 'annual': return amount / 12;
+      case 'biweekly': return (amount * 26) / 12; // 26 biweekly periods per year
+      case 'weekly': return (amount * 52) / 12; // 52 weeks per year
+      case 'monthly': 
+      default: return amount;
+    }
+  };
+
+  const totalIncome = incomeItems.reduce((sum, item) => sum + convertToMonthly(item.amount, item.frequency), 0);
   const totalExpenses = expenseItems.reduce((sum, item) => sum + item.amount, 0);
 
-  // Helper functions for expense tags
+  // Helper functions for income tags
+  const getIncomeIcon = (type: string) => {
+    const icons: { [key: string]: string } = {
+      'Salary': '💼',
+      'Business Income': '🏢',
+      'Rental Income': '🏠',
+      'Investment Income': '📈',
+      'Freelancing': '💻',
+      'Pension': '🏛️',
+      'Benefits': '🎁',
+      'Other': '💰'
+    };
+    return icons[type] || '💰';
+  };
+
+  const getIncomeColor = (type: string) => {
+    const colors: { [key: string]: string } = {
+      'Salary': '#3b82f6',
+      'Business Income': '#10b981',
+      'Rental Income': '#8b5cf6',
+      'Investment Income': '#f59e0b',
+      'Freelancing': '#06b6d4',
+      'Pension': '#84cc16',
+      'Benefits': '#ec4899',
+      'Other': '#6366f1'
+    };
+    return colors[type] || '#6366f1';
+  };
+
+  const getIncomeColorDark = (type: string) => {
+    const colors: { [key: string]: string } = {
+      'Salary': '#2563eb',
+      'Business Income': '#059669',
+      'Rental Income': '#7c3aed',
+      'Investment Income': '#d97706',
+      'Freelancing': '#0891b2',
+      'Pension': '#65a30d',
+      'Benefits': '#db2777',
+      'Other': '#4f46e5'
+    };
+    return colors[type] || '#4f46e5';
+  };
+
+  const getFrequencyLabel = (frequency: string) => {
+    const labels: { [key: string]: string } = {
+      'annual': 'Annual',
+      'monthly': 'Monthly', 
+      'biweekly': 'Bi-weekly',
+      'weekly': 'Weekly'
+    };
+    return labels[frequency] || 'Monthly';
+  };
   const getExpenseIcon = (type: string) => {
     const icons: { [key: string]: string } = {
       'Grocery': '🛒',
@@ -200,41 +271,74 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
           <div className="text-xl font-bold text-blue-600">${totalIncome.toLocaleString()}</div>
         </div>
 
-        {incomeItems.map((item) => (
-          <div key={item.id} className="flex gap-3 mb-2 items-center">
+        {/* Income Tags */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {incomeItems.map((item, index) => (
+            <div
+              key={item.id}
+              className="expense-tag animate-bounce-in hover:animate-pulse"
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                background: `linear-gradient(135deg, ${getIncomeColor(item.type)}, ${getIncomeColorDark(item.type)})`
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="expense-icon text-sm">{getIncomeIcon(item.type)}</span>
+                <div className="flex flex-col">
+                  <span className="text-white text-xs font-medium">
+                    {item.type}
+                  </span>
+                  <span className="text-white/90 text-xs">
+                    ${item.amount.toLocaleString()} ({getFrequencyLabel(item.frequency)})
+                  </span>
+                </div>
+                <button
+                  onClick={() => removeIncomeItem(item.id)}
+                  className="text-white/80 hover:text-white ml-1 font-bold text-sm leading-none"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Add New Income */}
+        <div className="space-y-2">
+          <div className="flex gap-3">
             <select
-              value={item.type}
-              onChange={(e) => updateIncomeItem(item.id, 'type', e.target.value)}
-              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              value={newIncomeType}
+              onChange={(e) => setNewIncomeType(e.target.value)}
+              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
             >
               {incomeTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
               ))}
             </select>
+            <select
+              value={newIncomeFrequency}
+              onChange={(e) => setNewIncomeFrequency(e.target.value as 'annual' | 'monthly' | 'biweekly' | 'weekly')}
+              className="w-24 px-2 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-xs"
+            >
+              <option value="monthly">Monthly</option>
+              <option value="annual">Annual</option>
+              <option value="biweekly">Bi-weekly</option>
+              <option value="weekly">Weekly</option>
+            </select>
             <input
               type="number"
               placeholder="Amount"
-              value={item.amount || ''}
-              onChange={(e) => updateIncomeItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
+              value={newIncomeAmount || ''}
+              onChange={(e) => setNewIncomeAmount(parseFloat(e.target.value) || 0)}
               className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
             />
             <button
-              onClick={() => removeIncomeItem(item.id)}
-              className="w-8 h-8 text-red-500 hover:text-red-700 font-bold text-lg"
-              disabled={incomeItems.length === 1}
+              onClick={addIncomeItem}
+              className="w-16 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105 text-sm"
             >
-              ×
+              Add
             </button>
           </div>
-        ))}
-
-        <div className="flex justify-end">
-          <button
-            onClick={addIncomeItem}
-            className="w-16 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105 text-sm"
-          >
-            Add
-          </button>
         </div>
       </div>
 
