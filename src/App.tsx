@@ -42,7 +42,7 @@ const ProfileIcon = ({ isLoggedIn, setIsLoggedIn, showLoginModal, setShowLoginMo
     } else if (isToolsPage && !isLoggedIn) {
       return "top-6 right-6"; // Higher position when no header is shown
     } else {
-      return "top-6 right-8"; // Position within header area
+      return "top-7 right-8"; // Centered in header area
     }
   };
 
