@@ -57,13 +57,18 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
           <button
             key={type.name}
             onClick={() => handleLoanTypeChange(type.name)}
-            className={`px-6 py-3 rounded-xl border-2 font-medium transition-all duration-300 ${
+            className={`relative px-6 py-4 rounded-full border-2 font-medium transition-all duration-300 ${
               selectedLoanType === type.name
-                ? "border-blue-500 bg-blue-50 text-blue-600"
-                : "border-gray-300 bg-white text-gray-700 hover:border-blue-300"
+                ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-500 transform scale-95 shadow-lg"
+                : "bg-white text-slate-700 border-gray-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 hover:shadow-md"
             }`}
           >
             {type.name}
+            {selectedLoanType === type.name && (
+              <div className="absolute -top-2 -right-2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs">✓</span>
+              </div>
+            )}
           </button>
         ))}
       </div>
