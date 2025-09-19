@@ -10,6 +10,7 @@ interface ExpenseItem {
   id: string;
   type: string;
   amount: number;
+  customName?: string;
 }
 
 interface AffordabilityProps {
@@ -27,6 +28,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   ]);
   const [newExpenseType, setNewExpenseType] = useState('Grocery');
   const [newExpenseAmount, setNewExpenseAmount] = useState(0);
+  const [newCustomName, setNewCustomName] = useState('');
 
   const incomeTypes = ['Salary', 'Business Income', 'Rental Income', 'Investment Income', 'Other'];
   const expenseTypes = ['Grocery', 'Car Loan', 'Utilities', 'Insurance', 'Credit Card', 'Other'];
@@ -39,8 +41,15 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   const addExpenseItem = () => {
     if (newExpenseAmount > 0) {
       const newId = (expenseItems.length + 1).toString();
-      setExpenseItems([...expenseItems, { id: newId, type: newExpenseType, amount: newExpenseAmount }]);
+      const newItem: ExpenseItem = {
+        id: newId,
+        type: newExpenseType,
+        amount: newExpenseAmount,
+        customName: newExpenseType === 'Other' ? newCustomName : undefined
+      };
+      setExpenseItems([...expenseItems, newItem]);
       setNewExpenseAmount(0);
+      setNewCustomName('');
     }
   };
 
@@ -189,14 +198,16 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               }}
             >
               <div className="flex items-center gap-2">
-                <span className="expense-icon">{getExpenseIcon(item.type)}</span>
+                <span className="expense-icon text-sm">{getExpenseIcon(item.type)}</span>
                 <div className="flex flex-col">
-                  <span className="text-white text-sm font-medium">{item.type}</span>
+                  <span className="text-white text-xs font-medium">
+                    {item.customName || item.type}
+                  </span>
                   <span className="text-white/90 text-xs">${item.amount.toLocaleString()}</span>
                 </div>
                 <button
                   onClick={() => removeExpenseItem(item.id)}
-                  className="text-white/80 hover:text-white ml-2 font-bold text-lg leading-none"
+                  className="text-white/80 hover:text-white ml-1 font-bold text-sm leading-none"
                   disabled={expenseItems.length === 1}
                 >
                   ×
@@ -207,29 +218,42 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
         </div>
 
         {/* Add New Expense */}
-        <div className="flex gap-3 mb-3">
-          <select
-            value={newExpenseType}
-            onChange={(e) => setNewExpenseType(e.target.value)}
-            className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
-          >
-            {expenseTypes.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
-          <input
-            type="number"
-            placeholder="Amount"
-            value={newExpenseAmount || ''}
-            onChange={(e) => setNewExpenseAmount(parseFloat(e.target.value) || 0)}
-            className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
-          />
-          <button
-            onClick={addExpenseItem}
-            className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
-          >
-            Add
-          </button>
+        <div className="space-y-3">
+          <div className="flex gap-3">
+            <select
+              value={newExpenseType}
+              onChange={(e) => setNewExpenseType(e.target.value)}
+              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            >
+              {expenseTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+            <input
+              type="number"
+              placeholder="Amount"
+              value={newExpenseAmount || ''}
+              onChange={(e) => setNewExpenseAmount(parseFloat(e.target.value) || 0)}
+              className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            />
+            <button
+              onClick={addExpenseItem}
+              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
+            >
+              Add
+            </button>
+          </div>
+          
+          {/* Custom name input for Other */}
+          {newExpenseType === 'Other' && (
+            <input
+              type="text"
+              placeholder="Enter expense name"
+              value={newCustomName}
+              onChange={(e) => setNewCustomName(e.target.value)}
+              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            />
+          )}
         </div>
       </div>
     </div>
