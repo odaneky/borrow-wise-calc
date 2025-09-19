@@ -15,6 +15,8 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
     if (principal <= 0 || loanTerm <= 0 || interestRate <= 0) {
       return {
         monthlyPayment: 0,
+        monthlyPrincipalPayment: 0,
+        monthlyInterestPayment: 0,
         totalLoan: 0,
         totalInterest: 0,
         totalPayment: 0,
@@ -32,14 +34,20 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
     const totalPayments = monthlyPayment * loanTerm;
     const totalInterest = totalPayments - principal;
     const effectiveRate = (totalInterest / principal) * 100;
-    const principalPercentage = (principal / totalPayments) * 100;
-    const interestPercentage = (totalInterest / totalPayments) * 100;
+    
+    // Calculate first month's principal and interest breakdown
+    const monthlyInterestPayment = principal * monthlyRate;
+    const monthlyPrincipalPayment = monthlyPayment - monthlyInterestPayment;
+    const principalPercentage = (monthlyPrincipalPayment / monthlyPayment) * 100;
+    const interestPercentage = (monthlyInterestPayment / monthlyPayment) * 100;
     
     const paybackDate = new Date();
     paybackDate.setMonth(paybackDate.getMonth() + loanTerm);
     
     return {
       monthlyPayment,
+      monthlyPrincipalPayment,
+      monthlyInterestPayment,
       totalLoan: principal,
       totalInterest,
       totalPayment: totalPayments,
@@ -88,7 +96,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
               style={{ width: `${calculations.principalPercentage}%` }}
             ></div>
           </div>
-          <div className="text-lg font-semibold">{formatCurrency(calculations.totalLoan)}</div>
+          <div className="text-lg font-semibold">{formatCurrency(calculations.monthlyPrincipalPayment)}</div>
         </div>
         <div className="bg-panel-darker rounded-lg p-4">
           <div className="text-sm opacity-80 mb-2">Interest</div>
@@ -98,7 +106,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
               style={{ width: `${calculations.interestPercentage}%` }}
             ></div>
           </div>
-          <div className="text-lg font-semibold">{formatCurrency(calculations.totalInterest)}</div>
+          <div className="text-lg font-semibold">{formatCurrency(calculations.monthlyInterestPayment)}</div>
         </div>
       </div>
 
