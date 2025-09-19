@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { formatCurrency } from "../lib/utils";
-import SliderInput from "./SliderInput";
 
 interface AffordabilityResultsProps {
   results: {
@@ -51,51 +50,53 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
   };
 
   return (
-    <div className="calculator-panel">
-      {/* Loan Type Selection */}
-      <div className="loan-types mb-8">
+    <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-gray-200 h-fit">
+      {/* Loan Type Selection - Inline Cards */}
+      <div className="flex gap-4 mb-8 justify-center">
         {loanTypes.map((type) => (
-          <div
+          <button
             key={type.name}
             onClick={() => handleLoanTypeChange(type.name)}
-            className={`loan-type ${selectedLoanType === type.name ? 'selected' : ''}`}
+            className={`px-6 py-3 rounded-xl border-2 font-medium transition-all duration-300 ${
+              selectedLoanType === type.name
+                ? "border-blue-500 bg-blue-50 text-blue-600"
+                : "border-gray-300 bg-white text-gray-700 hover:border-blue-300"
+            }`}
           >
             {type.name}
-          </div>
+          </button>
         ))}
       </div>
 
       {/* Main Affordability Display */}
-      <div className="payment-amount mb-8">
-        <div className="amount-value">{formatCurrency(totalAffordable)}</div>
-        <div className="amount-label">What can you afford?</div>
+      <div className="text-center mb-8">
+        <div className="text-5xl font-bold text-gray-900 mb-2">{formatCurrency(totalAffordable)}</div>
+        <div className="text-lg text-gray-600">What can afford?</div>
       </div>
 
       {/* Progress Bars */}
-      <div className="mb-8">
-        <div className="mb-4">
-          <div className="flex justify-between text-sm text-slate-600 mb-2">
-            <span>Income</span>
-            <span>{formatCurrency(totalIncome)}</span>
+      <div className="mb-8 space-y-4">
+        <div>
+          <div className="flex justify-between text-sm text-gray-700 mb-2">
+            <span className="font-medium">Income</span>
           </div>
-          <div className="breakdown-bar">
+          <div className="w-full bg-gray-200 rounded-full h-4">
             <div 
-              className="breakdown-fill principal-fill"
-              style={{ width: '100%' }}
+              className="bg-gray-500 h-4 rounded-full transition-all duration-500"
+              style={{ width: '75%' }}
             ></div>
           </div>
         </div>
         
-        <div className="mb-6">
-          <div className="flex justify-between text-sm text-slate-600 mb-2">
-            <span>Expense</span>
-            <span>{formatCurrency(totalExpenses)}</span>
+        <div>
+          <div className="flex justify-between text-sm text-gray-700 mb-2">
+            <span className="font-medium">Expense</span>
           </div>
-          <div className="breakdown-bar">
+          <div className="w-full bg-gray-200 rounded-full h-4">
             <div 
-              className="breakdown-fill interest-fill"
+              className="bg-gray-400 h-4 rounded-full transition-all duration-500"
               style={{ 
-                width: totalIncome > 0 ? `${(totalExpenses / totalIncome) * 100}%` : '0%' 
+                width: totalIncome > 0 ? `${Math.min(75, (totalExpenses / totalIncome) * 75)}%` : '0%' 
               }}
             ></div>
           </div>
@@ -103,48 +104,109 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       </div>
 
       {/* Monthly Payment */}
-      <div className="mb-6">
-        <h4 className="text-lg font-semibold text-slate-700 mb-2">Monthly Payment</h4>
-        <div className="text-2xl font-bold text-slate-800">{formatCurrency(maxMonthlyPayment)}</div>
+      <div className="mb-8">
+        <h4 className="text-xl font-semibold text-gray-900 mb-2">Monthly Payment</h4>
+        <div className="text-3xl font-bold text-gray-900">{formatCurrency(maxMonthlyPayment)}</div>
       </div>
 
-      {/* Sliders */}
-      <SliderInput
-        label="Loan Tenure"
-        value={loanTerm}
-        onChange={setLoanTerm}
-        min={12}
-        max={480}
-        step={12}
-        formatValue={(val) => {
-          const months = val;
-          const years = Math.floor(months / 12);
-          return years > 0 ? `${years} years` : `${months} months`;
-        }}
-        tooltip="Duration of the loan in years"
-      />
+      {/* Sliders with Input Boxes */}
+      <div className="space-y-6">
+        <div>
+          <div className="flex justify-between text-sm text-gray-700 mb-3">
+            <span className="font-medium">Loan Tenure</span>
+            <div className="flex items-center gap-2">
+              <span>10</span>
+              <span className="mx-2">-</span>
+              <span>40</span>
+              <input
+                type="number"
+                value={Math.floor(loanTerm / 12)}
+                onChange={(e) => setLoanTerm(parseInt(e.target.value) * 12 || 120)}
+                className="w-12 px-2 py-1 text-center bg-gray-200 rounded text-sm font-medium"
+                min="1"
+                max="40"
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={12}
+              max={480}
+              step={12}
+              value={loanTerm}
+              onChange={(e) => setLoanTerm(parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="absolute left-0 top-6 text-xs text-gray-500">10</div>
+            <div className="absolute right-0 top-6 text-xs text-gray-500">40</div>
+          </div>
+        </div>
 
-      <SliderInput
-        label="Initial Deposit"
-        value={downPayment}
-        onChange={setDownPayment}
-        min={0}
-        max={5000000}
-        step={50000}
-        formatValue={(val) => formatCurrency(val)}
-        tooltip="Amount you can pay upfront"
-      />
+        <div>
+          <div className="flex justify-between text-sm text-gray-700 mb-3">
+            <span className="font-medium">Initial Deposit</span>
+            <div className="flex items-center gap-2">
+              <span>10</span>
+              <span className="mx-2">-</span>
+              <span>40</span>
+              <input
+                type="number"
+                value={Math.floor(downPayment / 100000)}
+                onChange={(e) => setDownPayment((parseInt(e.target.value) || 1) * 100000)}
+                className="w-12 px-2 py-1 text-center bg-gray-200 rounded text-sm font-medium"
+                min="1"
+                max="50"
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={100000}
+              max={5000000}
+              step={100000}
+              value={downPayment}
+              onChange={(e) => setDownPayment(parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="absolute left-0 top-6 text-xs text-gray-500">10</div>
+            <div className="absolute right-0 top-6 text-xs text-gray-500">40</div>
+          </div>
+        </div>
 
-      <SliderInput
-        label="Interest Rate"
-        value={interestRate}
-        onChange={setInterestRate}
-        min={1}
-        max={25}
-        step={0.5}
-        formatValue={(val) => `${val.toFixed(1)}%`}
-        tooltip="Annual interest rate"
-      />
+        <div>
+          <div className="flex justify-between text-sm text-gray-700 mb-3">
+            <span className="font-medium">Interest Rate</span>
+            <div className="flex items-center gap-2">
+              <span>6%</span>
+              <span className="mx-2">-</span>
+              <span>20%</span>
+              <input
+                type="number"
+                value={Math.floor(interestRate)}
+                onChange={(e) => setInterestRate(parseInt(e.target.value) || 6)}
+                className="w-12 px-2 py-1 text-center bg-gray-200 rounded text-sm font-medium"
+                min="1"
+                max="25"
+              />
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="range"
+              min={1}
+              max={25}
+              step={0.5}
+              value={interestRate}
+              onChange={(e) => setInterestRate(parseFloat(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+            <div className="absolute left-0 top-6 text-xs text-gray-500">6%</div>
+            <div className="absolute right-0 top-6 text-xs text-gray-500">20%</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
