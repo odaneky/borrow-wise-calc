@@ -278,6 +278,13 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
               <DialogTitle className="text-xl font-bold text-slate-800">Amortization Schedule</DialogTitle>
               <DialogDescription className="text-slate-600">
                 Payment breakdown for {formatCurrency(calculations.totalLoan)} over {loanTerm} months at {interestRate}% APR
+                <br />
+                <span className="text-xs mt-2 block bg-slate-50 p-2 rounded border-l-4 border-blue-500">
+                  <strong>Formula:</strong> Monthly Payment = P × [r(1+r)ⁿ] / [(1+r)ⁿ - 1]
+                  <br />
+                  Where P = Principal, r = Monthly Rate ({(interestRate/12).toFixed(4)}%), n = Number of Payments ({loanTerm})
+                  {interestRate === 0 && <span><br /><strong>Zero Interest:</strong> Monthly Payment = Principal ÷ Loan Term</span>}
+                </span>
               </DialogDescription>
             </DialogHeader>
             <div className="mt-4 overflow-y-auto max-h-96">
