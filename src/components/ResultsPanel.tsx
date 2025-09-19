@@ -141,10 +141,6 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
           <span className="text-xs opacity-80">Total Loan Amount</span>
           <span className="font-semibold text-sm">{formatCurrency(calculations.totalLoan)}</span>
         </div>
-        <div className="flex justify-between items-center py-2 border-b border-white/10">
-          <span className="text-xs opacity-80">Total Interest</span>
-          <span className="font-semibold text-sm">{formatCurrency(calculations.totalInterest)}</span>
-        </div>
         <div className="flex justify-between items-center py-2">
           <span className="text-xs opacity-80">Total Amount to Pay</span>
           <span className="font-semibold text-sm">{formatCurrency(calculations.totalPayment)}</span>
