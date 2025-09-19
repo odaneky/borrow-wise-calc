@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface ResultsPanelProps {
   loanAmount: number;
@@ -11,6 +12,7 @@ interface ResultsPanelProps {
 const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPanelProps) => {
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAmortization, setShowAmortization] = useState(false);
 
   const calculations = useMemo(() => {
     const principal = Math.max(0, loanAmount - deposit);
@@ -26,7 +28,8 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
         principalPercentage: 0,
         interestPercentage: 0,
         effectiveRate: 0,
-        paybackDate: new Date()
+        paybackDate: new Date(),
+        amortizationSchedule: []
       };
     }
     
@@ -47,6 +50,28 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
     const paybackDate = new Date();
     paybackDate.setMonth(paybackDate.getMonth() + loanTerm);
     
+    // Calculate amortization schedule
+    const amortizationSchedule = [];
+    let remainingBalance = principal;
+    
+    for (let month = 1; month <= loanTerm; month++) {
+      const interestPayment = remainingBalance * monthlyRate;
+      const principalPayment = monthlyPayment - interestPayment;
+      remainingBalance = Math.max(0, remainingBalance - principalPayment);
+      
+      const paymentDate = new Date();
+      paymentDate.setMonth(paymentDate.getMonth() + month);
+      
+      amortizationSchedule.push({
+        month,
+        date: paymentDate,
+        payment: monthlyPayment,
+        principal: principalPayment,
+        interest: interestPayment,
+        balance: remainingBalance
+      });
+    }
+    
     return {
       monthlyPayment,
       monthlyPrincipalPayment,
@@ -57,7 +82,8 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
       principalPercentage,
       interestPercentage,
       effectiveRate,
-      paybackDate
+      paybackDate,
+      amortizationSchedule
     };
   }, [loanAmount, loanTerm, deposit, interestRate]);
 
@@ -91,17 +117,11 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
   };
 
   const handleAmortization = () => {
-    const principal = calculations.totalLoan;
-    const rate = interestRate / 100 / 12;
-    const months = loanTerm;
-    
-    if (principal <= 0 || months <= 0 || rate <= 0) {
+    if (calculations.totalLoan <= 0 || loanTerm <= 0 || interestRate <= 0) {
       showMessage('error', 'Please enter valid loan details first.');
       return;
     }
-    
-    // Create a simple alert for now
-    alert(`Amortization schedule for ${formatCurrency(principal)} loan over ${months} months at ${interestRate}% APR would be displayed here.`);
+    setShowAmortization(true);
   };
 
   return (
@@ -201,13 +221,73 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
             'Apply Now'
           )}
         </Button>
-        <Button 
-          onClick={handleAmortization}
-          variant="outline"
-          className="flex-1 bg-white/10 border border-white/20 text-white hover:bg-white/20 py-3 rounded-xl font-semibold text-sm backdrop-blur-sm"
-        >
-          View Amortization
-        </Button>
+        <Dialog open={showAmortization} onOpenChange={setShowAmortization}>
+          <DialogTrigger asChild>
+            <Button 
+              onClick={handleAmortization}
+              variant="outline"
+              className="flex-1 bg-white/10 border border-white/20 text-white hover:bg-white/20 py-3 rounded-xl font-semibold text-sm backdrop-blur-sm"
+            >
+              View Amortization
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-slate-800">Amortization Schedule</DialogTitle>
+              <DialogDescription className="text-slate-600">
+                Payment breakdown for {formatCurrency(calculations.totalLoan)} over {loanTerm} months at {interestRate}% APR
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 overflow-y-auto max-h-96">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg mb-4">
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-blue-600">{formatCurrency(calculations.monthlyPayment)}</div>
+                    <div className="text-sm text-slate-600">Monthly Payment</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-green-600">{formatCurrency(calculations.totalLoan)}</div>
+                    <div className="text-sm text-slate-600">Total Principal</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-red-600">{formatCurrency(calculations.totalInterest)}</div>
+                    <div className="text-sm text-slate-600">Total Interest</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="border rounded-lg overflow-hidden">
+                <div className="bg-slate-100 grid grid-cols-6 gap-2 p-3 text-xs font-semibold text-slate-700 border-b">
+                  <div>Month</div>
+                  <div>Date</div>
+                  <div>Payment</div>
+                  <div>Principal</div>
+                  <div>Interest</div>
+                  <div>Balance</div>
+                </div>
+                <div className="max-h-80 overflow-y-auto">
+                  {calculations.amortizationSchedule.map((payment, index) => (
+                    <div 
+                      key={payment.month} 
+                      className={`grid grid-cols-6 gap-2 p-3 text-xs border-b hover:bg-slate-50 transition-colors ${
+                        index % 2 === 0 ? 'bg-white' : 'bg-slate-25'
+                      }`}
+                    >
+                      <div className="font-semibold text-slate-700">{payment.month}</div>
+                      <div className="text-slate-600">
+                        {payment.date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })}
+                      </div>
+                      <div className="font-medium text-blue-600">{formatCurrency(payment.payment)}</div>
+                      <div className="font-medium text-green-600">{formatCurrency(payment.principal)}</div>
+                      <div className="font-medium text-red-600">{formatCurrency(payment.interest)}</div>
+                      <div className="font-medium text-slate-700">{formatCurrency(payment.balance)}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
       {/* Disclaimer */}
