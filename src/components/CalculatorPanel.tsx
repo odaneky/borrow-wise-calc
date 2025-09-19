@@ -84,7 +84,7 @@ const CalculatorPanel = ({
                 onChange={(e) => setLoanAmount(parseInt(e.target.value) || 0)}
                 className="w-20 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
                 min="100000"
-                max="10000000"
+                max="50000000"
                 step="100000"
               />
               <span className="text-gray-600 text-xs">JMD</span>
@@ -94,7 +94,7 @@ const CalculatorPanel = ({
             <input
               type="range"
               min={100000}
-              max={10000000}
+              max={50000000}
               step={100000}
               value={loanAmount}
               onChange={(e) => setLoanAmount(parseInt(e.target.value))}
@@ -102,7 +102,7 @@ const CalculatorPanel = ({
             />
             <div className="flex justify-between mt-1 text-xs text-gray-500">
               <span>$100K</span>
-              <span>$10M</span>
+              <span>$50M</span>
             </div>
           </div>
         </div>
@@ -183,9 +183,9 @@ const CalculatorPanel = ({
               <input
                 type="number"
                 value={interestRate}
-                onChange={(e) => setInterestRate(parseFloat(e.target.value) || 6)}
+                onChange={(e) => setInterestRate(parseFloat(e.target.value) || 0)}
                 className="w-12 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
-                min="1"
+                min="0"
                 max="25"
                 step="0.5"
               />
@@ -195,7 +195,7 @@ const CalculatorPanel = ({
           <div className="relative">
             <input
               type="range"
-              min={1}
+              min={0}
               max={25}
               step={0.5}
               value={interestRate}
@@ -203,7 +203,7 @@ const CalculatorPanel = ({
               className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
             <div className="flex justify-between mt-1 text-xs text-gray-500">
-              <span>1%</span>
+              <span>0%</span>
               <span>25%</span>
             </div>
           </div>

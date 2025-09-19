@@ -17,7 +17,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
   const calculations = useMemo(() => {
     const principal = Math.max(0, loanAmount - deposit);
     
-    if (principal <= 0 || loanTerm <= 0 || interestRate <= 0) {
+    if (principal <= 0 || loanTerm <= 0 || interestRate < 0) {
       return {
         monthlyPayment: 0,
         monthlyPrincipalPayment: 0,
@@ -30,6 +30,48 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
         effectiveRate: 0,
         paybackDate: new Date(),
         amortizationSchedule: []
+      };
+    }
+    
+    // Handle zero interest rate case
+    if (interestRate === 0) {
+      const monthlyPayment = principal / loanTerm;
+      const paybackDate = new Date();
+      paybackDate.setMonth(paybackDate.getMonth() + loanTerm);
+      
+      // Calculate amortization schedule for zero interest
+      const amortizationSchedule = [];
+      let remainingBalance = principal;
+      
+      for (let month = 1; month <= loanTerm; month++) {
+        const principalPayment = monthlyPayment;
+        remainingBalance = Math.max(0, remainingBalance - principalPayment);
+        
+        const paymentDate = new Date();
+        paymentDate.setMonth(paymentDate.getMonth() + month);
+        
+        amortizationSchedule.push({
+          month,
+          date: paymentDate,
+          payment: monthlyPayment,
+          principal: principalPayment,
+          interest: 0,
+          balance: remainingBalance
+        });
+      }
+      
+      return {
+        monthlyPayment,
+        monthlyPrincipalPayment: monthlyPayment,
+        monthlyInterestPayment: 0,
+        totalLoan: principal,
+        totalInterest: 0,
+        totalPayment: principal,
+        principalPercentage: 100,
+        interestPercentage: 0,
+        effectiveRate: 0,
+        paybackDate,
+        amortizationSchedule
       };
     }
     
