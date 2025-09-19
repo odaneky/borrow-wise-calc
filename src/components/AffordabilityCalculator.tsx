@@ -27,7 +27,13 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   const [newCustomName, setNewCustomName] = useState('');
 
   const incomeTypes = ['Salary', 'Business Income', 'Rental Income', 'Investment Income', 'Other'];
-  const expenseTypes = ['Grocery', 'Car Loan', 'Utilities', 'Insurance', 'Credit Card', 'Other'];
+  const expenseTypes = [
+    'Grocery', 'Car Loan', 'Utilities', 'Insurance', 'Credit Card', 
+    'Rent/Mortgage', 'Phone Bill', 'Internet', 'Gas/Fuel', 'Medical', 
+    'Entertainment', 'Dining Out', 'Subscriptions', 'Childcare', 
+    'Student Loan', 'Personal Loan', 'Transportation', 'Clothing', 
+    'Home Maintenance', 'Savings', 'Other'
+  ];
 
   const addIncomeItem = () => {
     const newId = (incomeItems.length + 1).toString();
@@ -92,6 +98,21 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
       'Utilities': '⚡',
       'Insurance': '🛡️',
       'Credit Card': '💳',
+      'Rent/Mortgage': '🏠',
+      'Phone Bill': '📱',
+      'Internet': '🌐',
+      'Gas/Fuel': '⛽',
+      'Medical': '🏥',
+      'Entertainment': '🎬',
+      'Dining Out': '🍽️',
+      'Subscriptions': '📺',
+      'Childcare': '👶',
+      'Student Loan': '🎓',
+      'Personal Loan': '💰',
+      'Transportation': '🚌',
+      'Clothing': '👕',
+      'Home Maintenance': '🔧',
+      'Savings': '💎',
       'Other': '📝'
     };
     return icons[type] || '📝';
@@ -104,6 +125,21 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
       'Utilities': '#f59e0b',
       'Insurance': '#8b5cf6',
       'Credit Card': '#ef4444',
+      'Rent/Mortgage': '#dc2626',
+      'Phone Bill': '#06b6d4',
+      'Internet': '#8b5cf6',
+      'Gas/Fuel': '#f97316',
+      'Medical': '#ec4899',
+      'Entertainment': '#a855f7',
+      'Dining Out': '#84cc16',
+      'Subscriptions': '#6366f1',
+      'Childcare': '#f472b6',
+      'Student Loan': '#0ea5e9',
+      'Personal Loan': '#eab308',
+      'Transportation': '#22c55e',
+      'Clothing': '#d946ef',
+      'Home Maintenance': '#fb7185',
+      'Savings': '#14b8a6',
       'Other': '#6b7280'
     };
     return colors[type] || '#6b7280';
@@ -116,6 +152,21 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
       'Utilities': '#d97706',
       'Insurance': '#7c3aed',
       'Credit Card': '#dc2626',
+      'Rent/Mortgage': '#b91c1c',
+      'Phone Bill': '#0891b2',
+      'Internet': '#7c3aed',
+      'Gas/Fuel': '#ea580c',
+      'Medical': '#db2777',
+      'Entertainment': '#9333ea',
+      'Dining Out': '#65a30d',
+      'Subscriptions': '#4f46e5',
+      'Childcare': '#ec4899',
+      'Student Loan': '#0284c7',
+      'Personal Loan': '#ca8a04',
+      'Transportation': '#16a34a',
+      'Clothing': '#c026d3',
+      'Home Maintenance': '#f43f5e',
+      'Savings': '#0f766e',
       'Other': '#4b5563'
     };
     return colors[type] || '#4b5563';
