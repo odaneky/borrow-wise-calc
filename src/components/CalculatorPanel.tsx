@@ -43,14 +43,14 @@ const CalculatorPanel = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl p-8 shadow-lg">
-      <h3 className="text-2xl font-bold text-slate-800 mb-2">Loan Calculator</h3>
-      <p className="text-slate-600 mb-8">Work out your payments with precision</p>
+    <div className="bg-white rounded-2xl p-6 shadow-lg">
+      <h3 className="text-xl font-bold text-slate-800 mb-1">Loan Calculator</h3>
+      <p className="text-slate-600 mb-6">Work out your payments with precision</p>
 
       {/* Loan Type Selection */}
-      <div className="mb-8">
-        <label className="block text-sm font-semibold text-slate-700 mb-3">Select a loan type</label>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="mb-6">
+        <label className="block text-sm font-semibold text-slate-700 mb-2">Select a loan type</label>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {loanTypes.map((type) => (
             <button
               key={type.id}
@@ -72,7 +72,7 @@ const CalculatorPanel = ({
         </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-5">
         <SimpleInput
           label="Loan Amount"
           value={loanAmount}

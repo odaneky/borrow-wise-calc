@@ -133,20 +133,20 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
   return (
     <div className="calculator-panel">
-      <div className="mb-8">
+      <div className="mb-6">
         <h3 className="calculator-title">Affordability Calculator</h3>
         <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
       </div>
 
       {/* Income Details Section */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-3">
           <h4 className="text-lg font-semibold text-slate-700">Income Details</h4>
           <div className="text-xl font-bold text-slate-800">${totalIncome.toLocaleString()}</div>
         </div>
 
         {incomeItems.map((item) => (
-          <div key={item.id} className="flex gap-3 mb-3 items-center">
+          <div key={item.id} className="flex gap-3 mb-2 items-center">
             <select
               value={item.type}
               onChange={(e) => updateIncomeItem(item.id, 'type', e.target.value)}
@@ -161,11 +161,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Amount"
               value={item.amount || ''}
               onChange={(e) => updateIncomeItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
-              className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
             />
             <button
               onClick={() => removeIncomeItem(item.id)}
-              className="w-10 h-10 text-red-500 hover:text-red-700 font-bold text-xl"
+              className="w-8 h-8 text-red-500 hover:text-red-700 font-bold text-lg"
               disabled={incomeItems.length === 1}
             >
               ×
@@ -175,21 +175,21 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
         <button
           onClick={addIncomeItem}
-          className="w-full py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
+          className="w-full py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
         >
           Add
         </button>
       </div>
 
       {/* Expense Details Section */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-3">
           <h4 className="text-lg font-semibold text-slate-700">Expense Details</h4>
           <div className="text-xl font-bold text-slate-800">${totalExpenses.toLocaleString()}</div>
         </div>
 
         {/* Expense Tags */}
-        <div className="flex flex-wrap gap-3 mb-4">
+        <div className="flex flex-wrap gap-2 mb-3">
           {expenseItems.map((item, index) => (
             <div
               key={item.id}
@@ -220,12 +220,12 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
         </div>
 
         {/* Add New Expense */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex gap-3">
             <select
               value={newExpenseType}
               onChange={(e) => setNewExpenseType(e.target.value)}
-              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
             >
               {expenseTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
@@ -236,11 +236,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Amount"
               value={newExpenseAmount || ''}
               onChange={(e) => setNewExpenseAmount(parseFloat(e.target.value) || 0)}
-              className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
             />
             <button
               onClick={addExpenseItem}
-              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-all duration-200 hover:scale-105"
             >
               Add
             </button>
@@ -253,7 +253,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Enter expense name"
               value={newCustomName}
               onChange={(e) => setNewCustomName(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-full px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
             />
           )}
         </div>
