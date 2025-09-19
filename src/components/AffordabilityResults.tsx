@@ -50,9 +50,19 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-lg border-2 border-gray-200 h-fit">
+    <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-4 text-white relative overflow-hidden h-fit">
+      {/* Animated background */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="animate-float w-full h-full bg-gradient-to-r from-transparent via-white to-transparent" 
+             style={{
+               backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+               backgroundSize: '20px 20px'
+             }}>
+        </div>
+      </div>
+
       {/* Loan Type Selection - Inline Cards */}
-      <div className="flex gap-2 mb-4 justify-center">
+      <div className="flex gap-2 mb-4 justify-center relative z-10">
         {loanTypes.map((type) => (
           <button
             key={type.name}
@@ -60,7 +70,7 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
             className={`relative px-3 py-2 rounded-full border-2 font-medium text-xs transition-all duration-300 ${
               selectedLoanType === type.name
                 ? "bg-gradient-to-br from-blue-500 to-blue-600 text-white border-blue-500 transform scale-95 shadow-lg"
-                : "bg-white text-slate-700 border-gray-200 hover:border-blue-300 hover:text-blue-600 hover:-translate-y-1 hover:shadow-md"
+                : "bg-white/10 text-white border-white/20 hover:border-blue-300 hover:bg-white/20 hover:-translate-y-1 hover:shadow-md backdrop-blur-sm"
             }`}
           >
             {type.name}
@@ -74,62 +84,59 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       </div>
 
       {/* Main Affordability Display */}
-      <div className="text-center mb-4">
-        <div className="text-3xl font-bold text-gray-900 mb-1">{formatCurrency(totalAffordable)}</div>
-        <div className="text-base text-gray-600">What can afford?</div>
+      <div className="text-center mb-4 p-3 bg-white/5 rounded-2xl backdrop-blur-sm relative z-10">
+        <div className="text-3xl font-bold mb-2 animate-pulse-slow bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">{formatCurrency(totalAffordable)}</div>
+        <div className="text-sm opacity-90 uppercase tracking-wide">What can afford?</div>
       </div>
 
       {/* Progress Bars */}
-      <div className="mb-4 space-y-2">
-        <div>
-          <div className="flex justify-between text-sm text-gray-700 mb-2">
-            <span className="font-medium">Income</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+      <div className="grid grid-cols-2 gap-3 mb-4 relative z-10">
+        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Total Income</div>
+          <div className="text-sm font-semibold mb-2">{formatCurrency(totalIncome)}</div>
+          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
-              className="bg-gray-500 h-3 rounded-full transition-all duration-500"
-              style={{ width: '75%' }}
-            ></div>
+              className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-700 breakdown-fill"
+              style={{ width: `${totalIncome > 0 ? Math.min((totalIncome / (totalIncome + totalExpenses || 1)) * 100, 100) : 0}%` }}
+            />
           </div>
         </div>
-        
-        <div>
-          <div className="flex justify-between text-sm text-gray-700 mb-1">
-            <span className="font-medium">Expense</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Total Expenses</div>
+          <div className="text-sm font-semibold mb-2">{formatCurrency(totalExpenses)}</div>
+          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div 
-              className="bg-gray-400 h-3 rounded-full transition-all duration-500"
-              style={{ 
-                width: totalIncome > 0 ? `${Math.min(75, (totalExpenses / totalIncome) * 75)}%` : '0%' 
-              }}
-            ></div>
+              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-700 breakdown-fill"
+              style={{ width: `${totalExpenses > 0 ? Math.min((totalExpenses / (totalIncome + totalExpenses || 1)) * 100, 100) : 0}%` }}
+            />
           </div>
         </div>
       </div>
 
       {/* Monthly Payment */}
-      <div className="mb-4">
-        <h4 className="text-base font-semibold text-gray-900 mb-1">Monthly Payment</h4>
-        <div className="text-xl font-bold text-gray-900">{formatCurrency(maxMonthlyPayment)}</div>
+      <div className="bg-white/8 rounded-xl p-3 mb-4 relative z-10">
+        <div className="flex justify-between items-center py-2">
+          <span className="text-xs opacity-80 uppercase tracking-wide">Monthly Payment</span>
+          <span className="font-semibold text-sm">{formatCurrency(maxMonthlyPayment)}</span>
+        </div>
       </div>
 
       {/* Interactive Controls */}
-      <div className="space-y-4">
+      <div className="space-y-4 relative z-10">
         {/* Loan Tenure */}
-        <div className="bg-gray-50 p-3 rounded-xl">
+        <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Loan Tenure</span>
-            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+            <span className="text-xs opacity-80 uppercase tracking-wide">Loan Tenure</span>
+            <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
               <input
                 type="number"
                 value={Math.floor(loanTerm / 12)}
                 onChange={(e) => setLoanTerm(parseInt(e.target.value) * 12 || 120)}
-                className="w-10 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                className="w-10 text-center font-semibold text-white bg-transparent outline-none text-xs"
                 min="1"
                 max="40"
               />
-              <span className="text-gray-600 font-medium text-xs">years</span>
+              <span className="text-white/80 font-medium text-xs">years</span>
             </div>
           </div>
           <div className="relative">
@@ -140,9 +147,9 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               step={12}
               value={loanTerm}
               onChange={(e) => setLoanTerm(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
-            <div className="flex justify-between mt-1 text-xs text-gray-500">
+            <div className="flex justify-between mt-1 text-xs text-white/60">
               <span>1 year</span>
               <span>40 years</span>
             </div>
@@ -150,16 +157,16 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
         </div>
 
         {/* Initial Deposit */}
-        <div className="bg-gray-50 p-3 rounded-xl">
+        <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Initial Deposit</span>
-            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
-              <span className="text-gray-600 text-xs">$</span>
+            <span className="text-xs opacity-80 uppercase tracking-wide">Initial Deposit</span>
+            <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
+              <span className="text-white/80 text-xs">$</span>
               <input
                 type="number"
                 value={downPayment}
                 onChange={(e) => setDownPayment(parseInt(e.target.value) || 100000)}
-                className="w-16 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                className="w-16 text-center font-semibold text-white bg-transparent outline-none text-xs"
                 min="100000"
                 max="5000000"
                 step="100000"
@@ -174,9 +181,9 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               step={100000}
               value={downPayment}
               onChange={(e) => setDownPayment(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
-            <div className="flex justify-between mt-1 text-xs text-gray-500">
+            <div className="flex justify-between mt-1 text-xs text-white/60">
               <span>$100K</span>
               <span>$5M</span>
             </div>
@@ -184,20 +191,20 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
         </div>
 
         {/* Interest Rate */}
-        <div className="bg-gray-50 p-3 rounded-xl">
+        <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Interest Rate</span>
-            <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
+            <span className="text-xs opacity-80 uppercase tracking-wide">Interest Rate</span>
+            <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
               <input
                 type="number"
                 value={interestRate}
                 onChange={(e) => setInterestRate(parseFloat(e.target.value) || 6)}
-                className="w-10 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
+                className="w-10 text-center font-semibold text-white bg-transparent outline-none text-xs"
                 min="1"
                 max="25"
                 step="0.5"
               />
-              <span className="text-gray-600 font-medium text-xs">%</span>
+              <span className="text-white/80 font-medium text-xs">%</span>
             </div>
           </div>
           <div className="relative">
@@ -208,9 +215,9 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               step={0.5}
               value={interestRate}
               onChange={(e) => setInterestRate(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
-            <div className="flex justify-between mt-1 text-xs text-gray-500">
+            <div className="flex justify-between mt-1 text-xs text-white/60">
               <span>1%</span>
               <span>25%</span>
             </div>
