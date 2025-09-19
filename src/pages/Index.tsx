@@ -6,11 +6,7 @@ import ResultsPanel from "@/components/ResultsPanel";
 import AffordabilityCalculator from "@/components/AffordabilityCalculator";
 import AffordabilityResults from "@/components/AffordabilityResults";
 
-interface IndexProps {
-  isLoggedIn: boolean;
-}
-
-const Index = ({ isLoggedIn }: IndexProps) => {
+const Index = () => {
   const [activeTool, setActiveTool] = useState("Loan Calculator");
   const [loanAmount, setLoanAmount] = useState(50000);
   const [loanTerm, setLoanTerm] = useState(60);
@@ -27,7 +23,7 @@ const Index = ({ isLoggedIn }: IndexProps) => {
   return (
     <div className="min-h-screen p-5">
       <div className="max-w-7xl mx-auto glass-effect rounded-[20px] shadow-2xl overflow-hidden">
-        {isLoggedIn && <Header />}
+        <Header />
         <Toolbar activeTool={activeTool} setActiveTool={setActiveTool} />
         
         <main className="grid lg:grid-cols-2 gap-10 p-10">
