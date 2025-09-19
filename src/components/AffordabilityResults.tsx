@@ -149,7 +149,7 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
           <div className="flex justify-between items-center mb-4">
             <span className="text-lg font-semibold text-gray-800">Initial Deposit</span>
             <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border">
-              <span className="text-gray-600">₹</span>
+              <span className="text-gray-600">$</span>
               <input
                 type="number"
                 value={downPayment}
@@ -172,8 +172,8 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               className="w-full h-3 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
             <div className="flex justify-between mt-2 text-sm text-gray-500">
-              <span>₹1L</span>
-              <span>₹50L</span>
+              <span>$100K</span>
+              <span>$5M</span>
             </div>
           </div>
         </div>
