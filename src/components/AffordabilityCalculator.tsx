@@ -133,8 +133,10 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
   return (
     <div className="calculator-panel">
-      <h3 className="calculator-title">Affordability Calculator</h3>
-      <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
+      <div className="mb-8">
+        <h3 className="calculator-title">Affordability Calculator</h3>
+        <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
+      </div>
 
       {/* Income Details Section */}
       <div className="mb-8">
