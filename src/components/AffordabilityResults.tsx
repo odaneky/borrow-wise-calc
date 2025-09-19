@@ -109,23 +109,22 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
         <div className="text-3xl font-bold text-gray-900">{formatCurrency(maxMonthlyPayment)}</div>
       </div>
 
-      {/* Sliders with Input Boxes */}
-      <div className="space-y-6">
-        <div>
-          <div className="flex justify-between text-sm text-gray-700 mb-3">
-            <span className="font-medium">Loan Tenure</span>
-            <div className="flex items-center gap-2">
-              <span>10</span>
-              <span className="mx-2">-</span>
-              <span>40</span>
+      {/* Interactive Controls */}
+      <div className="space-y-8">
+        {/* Loan Tenure */}
+        <div className="bg-gray-50 p-6 rounded-xl">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-lg font-semibold text-gray-800">Loan Tenure</span>
+            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border">
               <input
                 type="number"
                 value={Math.floor(loanTerm / 12)}
                 onChange={(e) => setLoanTerm(parseInt(e.target.value) * 12 || 120)}
-                className="w-12 px-2 py-1 text-center bg-gray-200 rounded text-sm font-medium"
+                className="w-16 text-center font-semibold text-gray-800 bg-transparent outline-none"
                 min="1"
                 max="40"
               />
+              <span className="text-gray-600 font-medium">years</span>
             </div>
           </div>
           <div className="relative">
@@ -136,27 +135,29 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               step={12}
               value={loanTerm}
               onChange={(e) => setLoanTerm(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+              className="w-full h-3 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
-            <div className="absolute left-0 top-6 text-xs text-gray-500">10</div>
-            <div className="absolute right-0 top-6 text-xs text-gray-500">40</div>
+            <div className="flex justify-between mt-2 text-sm text-gray-500">
+              <span>1 year</span>
+              <span>40 years</span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <div className="flex justify-between text-sm text-gray-700 mb-3">
-            <span className="font-medium">Initial Deposit</span>
-            <div className="flex items-center gap-2">
-              <span>10</span>
-              <span className="mx-2">-</span>
-              <span>40</span>
+        {/* Initial Deposit */}
+        <div className="bg-gray-50 p-6 rounded-xl">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-lg font-semibold text-gray-800">Initial Deposit</span>
+            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border">
+              <span className="text-gray-600">₹</span>
               <input
                 type="number"
-                value={Math.floor(downPayment / 100000)}
-                onChange={(e) => setDownPayment((parseInt(e.target.value) || 1) * 100000)}
-                className="w-12 px-2 py-1 text-center bg-gray-200 rounded text-sm font-medium"
-                min="1"
-                max="50"
+                value={downPayment}
+                onChange={(e) => setDownPayment(parseInt(e.target.value) || 100000)}
+                className="w-24 text-center font-semibold text-gray-800 bg-transparent outline-none"
+                min="100000"
+                max="5000000"
+                step="100000"
               />
             </div>
           </div>
@@ -168,28 +169,30 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               step={100000}
               value={downPayment}
               onChange={(e) => setDownPayment(parseInt(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+              className="w-full h-3 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
-            <div className="absolute left-0 top-6 text-xs text-gray-500">10</div>
-            <div className="absolute right-0 top-6 text-xs text-gray-500">40</div>
+            <div className="flex justify-between mt-2 text-sm text-gray-500">
+              <span>₹1L</span>
+              <span>₹50L</span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <div className="flex justify-between text-sm text-gray-700 mb-3">
-            <span className="font-medium">Interest Rate</span>
-            <div className="flex items-center gap-2">
-              <span>6%</span>
-              <span className="mx-2">-</span>
-              <span>20%</span>
+        {/* Interest Rate */}
+        <div className="bg-gray-50 p-6 rounded-xl">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-lg font-semibold text-gray-800">Interest Rate</span>
+            <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border">
               <input
                 type="number"
-                value={Math.floor(interestRate)}
-                onChange={(e) => setInterestRate(parseInt(e.target.value) || 6)}
-                className="w-12 px-2 py-1 text-center bg-gray-200 rounded text-sm font-medium"
+                value={interestRate}
+                onChange={(e) => setInterestRate(parseFloat(e.target.value) || 6)}
+                className="w-16 text-center font-semibold text-gray-800 bg-transparent outline-none"
                 min="1"
                 max="25"
+                step="0.5"
               />
+              <span className="text-gray-600 font-medium">%</span>
             </div>
           </div>
           <div className="relative">
@@ -200,10 +203,12 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               step={0.5}
               value={interestRate}
               onChange={(e) => setInterestRate(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+              className="w-full h-3 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
-            <div className="absolute left-0 top-6 text-xs text-gray-500">6%</div>
-            <div className="absolute right-0 top-6 text-xs text-gray-500">20%</div>
+            <div className="flex justify-between mt-2 text-sm text-gray-500">
+              <span>1%</span>
+              <span>25%</span>
+            </div>
           </div>
         </div>
       </div>
