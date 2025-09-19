@@ -305,11 +305,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
         {/* Add New Income */}
         <div className="space-y-2">
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             <select
               value={newIncomeType}
               onChange={(e) => setNewIncomeType(e.target.value)}
-              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-sm"
             >
               {incomeTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
@@ -318,7 +318,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
             <select
               value={newIncomeFrequency}
               onChange={(e) => setNewIncomeFrequency(e.target.value as 'annual' | 'monthly' | 'biweekly' | 'weekly')}
-              className="w-24 px-2 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-xs"
+              className="w-28 px-2 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-xs"
             >
               <option value="monthly">Monthly</option>
               <option value="annual">Annual</option>
@@ -330,7 +330,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Amount"
               value={newIncomeAmount || ''}
               onChange={(e) => setNewIncomeAmount(parseFloat(e.target.value) || 0)}
-              className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-28 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-sm"
             />
             <button
               onClick={addIncomeItem}
@@ -382,11 +382,11 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
 
         {/* Add New Expense */}
         <div className="space-y-2">
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             <select
               value={newExpenseType}
               onChange={(e) => setNewExpenseType(e.target.value)}
-              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="flex-1 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-sm"
             >
               {expenseTypes.map(type => (
                 <option key={type} value={type}>{type}</option>
@@ -397,7 +397,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
               placeholder="Amount"
               value={newExpenseAmount || ''}
               onChange={(e) => setNewExpenseAmount(parseFloat(e.target.value) || 0)}
-              className="w-32 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+              className="w-28 px-3 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-sm"
             />
             <button
               onClick={addExpenseItem}
