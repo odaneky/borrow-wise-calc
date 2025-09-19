@@ -1,107 +1,175 @@
 import { useState, useEffect } from "react";
-import SimpleInput from "./SimpleInput";
+
+interface IncomeItem {
+  id: string;
+  type: string;
+  amount: number;
+}
+
+interface ExpenseItem {
+  id: string;
+  type: string;
+  amount: number;
+}
 
 interface AffordabilityProps {
   onCalculate?: (result: any) => void;
 }
 
 const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
-  const [monthlyIncome, setMonthlyIncome] = useState(150000);
-  const [monthlyExpenses, setMonthlyExpenses] = useState(80000);
-  const [existingDebt, setExistingDebt] = useState(25000);
-  const [downPayment, setDownPayment] = useState(100000);
-  const [interestRate, setInterestRate] = useState(8.5);
-  const [loanTerm, setLoanTerm] = useState(60);
+  const [incomeItems, setIncomeItems] = useState<IncomeItem[]>([
+    { id: '1', type: 'Salary', amount: 520000 }
+  ]);
+  const [expenseItems, setExpenseItems] = useState<ExpenseItem[]>([
+    { id: '1', type: 'Grocery', amount: 150000 },
+    { id: '2', type: 'Car Loan', amount: 80000 },
+    { id: '3', type: 'Utilities', amount: 40000 }
+  ]);
 
-  // Calculate affordability
+  const incomeTypes = ['Salary', 'Business Income', 'Rental Income', 'Investment Income', 'Other'];
+  const expenseTypes = ['Grocery', 'Car Loan', 'Utilities', 'Insurance', 'Credit Card', 'Other'];
+
+  const addIncomeItem = () => {
+    const newId = (incomeItems.length + 1).toString();
+    setIncomeItems([...incomeItems, { id: newId, type: 'Salary', amount: 0 }]);
+  };
+
+  const addExpenseItem = () => {
+    const newId = (expenseItems.length + 1).toString();
+    setExpenseItems([...expenseItems, { id: newId, type: 'Grocery', amount: 0 }]);
+  };
+
+  const updateIncomeItem = (id: string, field: 'type' | 'amount', value: string | number) => {
+    setIncomeItems(items => items.map(item => 
+      item.id === id ? { ...item, [field]: value } : item
+    ));
+  };
+
+  const updateExpenseItem = (id: string, field: 'type' | 'amount', value: string | number) => {
+    setExpenseItems(items => items.map(item => 
+      item.id === id ? { ...item, [field]: value } : item
+    ));
+  };
+
+  const removeIncomeItem = (id: string) => {
+    if (incomeItems.length > 1) {
+      setIncomeItems(items => items.filter(item => item.id !== id));
+    }
+  };
+
+  const removeExpenseItem = (id: string) => {
+    if (expenseItems.length > 1) {
+      setExpenseItems(items => items.filter(item => item.id !== id));
+    }
+  };
+
+  const totalIncome = incomeItems.reduce((sum, item) => sum + item.amount, 0);
+  const totalExpenses = expenseItems.reduce((sum, item) => sum + item.amount, 0);
+
+  // Calculate affordability and pass to parent
   useEffect(() => {
-    const availableIncome = monthlyIncome - monthlyExpenses - existingDebt;
+    const availableIncome = totalIncome - totalExpenses;
     const maxMonthlyPayment = Math.max(0, availableIncome * 0.28); // 28% debt-to-income ratio
     
-    if (maxMonthlyPayment <= 0 || interestRate <= 0 || loanTerm <= 0) {
-      onCalculate?.({
-        maxLoanAmount: 0,
-        maxMonthlyPayment: 0,
-        totalAffordablePrice: downPayment,
-        debtToIncomeRatio: 0,
-        availableIncome: availableIncome
-      });
-      return;
-    }
-
-    // Calculate max loan amount using payment formula
-    const monthlyRate = (interestRate / 100) / 12;
-    const maxLoanAmount = (maxMonthlyPayment * (Math.pow(1 + monthlyRate, loanTerm) - 1)) / 
-                         (monthlyRate * Math.pow(1 + monthlyRate, loanTerm));
-    
-    const totalAffordablePrice = maxLoanAmount + downPayment;
-    const debtToIncomeRatio = ((maxMonthlyPayment + existingDebt) / monthlyIncome) * 100;
-
     onCalculate?.({
-      maxLoanAmount,
+      totalIncome,
+      totalExpenses,
+      availableIncome,
       maxMonthlyPayment,
-      totalAffordablePrice,
-      debtToIncomeRatio,
-      availableIncome
+      debtToIncomeRatio: totalIncome > 0 ? (totalExpenses / totalIncome) * 100 : 0
     });
-  }, [monthlyIncome, monthlyExpenses, existingDebt, downPayment, interestRate, loanTerm, onCalculate]);
+  }, [totalIncome, totalExpenses, onCalculate]);
 
   return (
     <div className="calculator-panel">
       <h3 className="calculator-title">Affordability Calculator</h3>
-      <p className="calculator-subtitle">Discover what you can afford based on your income</p>
+      <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
 
-      <SimpleInput
-        label="Monthly Income"
-        value={monthlyIncome}
-        onChange={setMonthlyIncome}
-        prefix="$"
-        suffix="JMD"
-        tooltip="Your total monthly income before taxes"
-      />
+      {/* Income Details Section */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="text-lg font-semibold text-slate-700">Income Details</h4>
+          <div className="text-xl font-bold text-slate-800">${totalIncome.toLocaleString()}</div>
+        </div>
 
-      <SimpleInput
-        label="Monthly Expenses"
-        value={monthlyExpenses}
-        onChange={setMonthlyExpenses}
-        prefix="$"
-        suffix="JMD"
-        tooltip="Your total monthly expenses (utilities, food, insurance, etc.)"
-      />
+        {incomeItems.map((item) => (
+          <div key={item.id} className="flex gap-3 mb-3 items-center">
+            <select
+              value={item.type}
+              onChange={(e) => updateIncomeItem(item.id, 'type', e.target.value)}
+              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            >
+              {incomeTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+            <input
+              type="number"
+              placeholder="Amount"
+              value={item.amount || ''}
+              onChange={(e) => updateIncomeItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
+              className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            />
+            <button
+              onClick={() => removeIncomeItem(item.id)}
+              className="w-10 h-10 text-red-500 hover:text-red-700 font-bold text-xl"
+              disabled={incomeItems.length === 1}
+            >
+              ×
+            </button>
+          </div>
+        ))}
 
-      <SimpleInput
-        label="Existing Monthly Debt"
-        value={existingDebt}
-        onChange={setExistingDebt}
-        prefix="$"
-        suffix="JMD"
-        tooltip="Current monthly debt payments (credit cards, other loans, etc.)"
-      />
+        <button
+          onClick={addIncomeItem}
+          className="w-full py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
+        >
+          Add
+        </button>
+      </div>
 
-      <SimpleInput
-        label="Available Down Payment"
-        value={downPayment}
-        onChange={setDownPayment}
-        prefix="$"
-        suffix="JMD"
-        tooltip="Amount you can put down upfront"
-      />
+      {/* Expense Details Section */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="text-lg font-semibold text-slate-700">Expense Details</h4>
+          <div className="text-xl font-bold text-slate-800">${totalExpenses.toLocaleString()}</div>
+        </div>
 
-      <SimpleInput
-        label="Interest Rate"
-        value={interestRate}
-        onChange={setInterestRate}
-        suffix="%"
-        tooltip="Expected annual interest rate"
-      />
+        {expenseItems.map((item) => (
+          <div key={item.id} className="flex gap-3 mb-3 items-center">
+            <select
+              value={item.type}
+              onChange={(e) => updateExpenseItem(item.id, 'type', e.target.value)}
+              className="flex-1 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            >
+              {expenseTypes.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+            <input
+              type="number"
+              placeholder="Amount"
+              value={item.amount || ''}
+              onChange={(e) => updateExpenseItem(item.id, 'amount', parseFloat(e.target.value) || 0)}
+              className="w-32 px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none"
+            />
+            <button
+              onClick={() => removeExpenseItem(item.id)}
+              className="w-10 h-10 text-red-500 hover:text-red-700 font-bold text-xl"
+              disabled={expenseItems.length === 1}
+            >
+              ×
+            </button>
+          </div>
+        ))}
 
-      <SimpleInput
-        label="Loan Term"
-        value={loanTerm}
-        onChange={setLoanTerm}
-        suffix="months"
-        tooltip="How long to repay the loan"
-      />
+        <button
+          onClick={addExpenseItem}
+          className="w-full py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl font-medium transition-colors"
+        >
+          Add
+        </button>
+      </div>
     </div>
   );
 };

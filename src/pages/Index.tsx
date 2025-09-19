@@ -13,11 +13,11 @@ const Index = () => {
   const [deposit, setDeposit] = useState(0);
   const [interestRate, setInterestRate] = useState(8.5);
   const [affordabilityResults, setAffordabilityResults] = useState({
-    maxLoanAmount: 0,
+    totalIncome: 0,
+    totalExpenses: 0,
+    availableIncome: 0,
     maxMonthlyPayment: 0,
-    totalAffordablePrice: 0,
-    debtToIncomeRatio: 0,
-    availableIncome: 0
+    debtToIncomeRatio: 0
   });
 
   return (

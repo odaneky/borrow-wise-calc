@@ -1,95 +1,150 @@
+import { useState } from "react";
 import { formatCurrency } from "../lib/utils";
+import SliderInput from "./SliderInput";
 
 interface AffordabilityResultsProps {
   results: {
-    maxLoanAmount: number;
-    maxMonthlyPayment: number;
-    totalAffordablePrice: number;
-    debtToIncomeRatio: number;
+    totalIncome: number;
+    totalExpenses: number;
     availableIncome: number;
+    maxMonthlyPayment: number;
+    debtToIncomeRatio: number;
   };
 }
 
 const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
+  const [selectedLoanType, setSelectedLoanType] = useState("Mortgage");
+  const [loanTerm, setLoanTerm] = useState(240); // 20 years in months
+  const [downPayment, setDownPayment] = useState(500000);
+  const [interestRate, setInterestRate] = useState(6.0);
+
   const {
-    maxLoanAmount,
-    maxMonthlyPayment,
-    totalAffordablePrice,
-    debtToIncomeRatio,
-    availableIncome
+    totalIncome,
+    totalExpenses,
+    availableIncome,
+    maxMonthlyPayment
   } = results;
 
-  const getRiskLevel = (ratio: number) => {
-    if (ratio <= 28) return { level: "Low", color: "text-green-400", bg: "bg-green-500" };
-    if (ratio <= 36) return { level: "Moderate", color: "text-yellow-400", bg: "bg-yellow-500" };
-    return { level: "High", color: "text-red-400", bg: "bg-red-500" };
+  // Calculate loan amount based on payment capacity
+  const calculateLoanAmount = () => {
+    if (maxMonthlyPayment <= 0 || interestRate <= 0 || loanTerm <= 0) return 0;
+    const monthlyRate = (interestRate / 100) / 12;
+    return (maxMonthlyPayment * (Math.pow(1 + monthlyRate, loanTerm) - 1)) / 
+           (monthlyRate * Math.pow(1 + monthlyRate, loanTerm));
   };
 
-  const risk = getRiskLevel(debtToIncomeRatio);
+  const maxLoanAmount = calculateLoanAmount();
+  const totalAffordable = maxLoanAmount + downPayment;
+  
+  const loanTypes = [
+    { name: "Mortgage", rate: 6.0 },
+    { name: "Unsecured", rate: 12.0 },
+    { name: "Auto", rate: 8.5 }
+  ];
+
+  const handleLoanTypeChange = (type: string) => {
+    setSelectedLoanType(type);
+    const selectedType = loanTypes.find(t => t.name === type);
+    if (selectedType) {
+      setInterestRate(selectedType.rate);
+    }
+  };
 
   return (
-    <div className="results-panel">
-      <div className="payment-amount">
-        <div className="amount-value">{formatCurrency(totalAffordablePrice)}</div>
-        <div className="amount-label">Total Affordable Price</div>
-      </div>
-
-      <div className="loan-summary">
-        <div className="summary-row">
-          <span className="summary-label">Max Loan Amount</span>
-          <span className="summary-value">{formatCurrency(maxLoanAmount)}</span>
-        </div>
-        <div className="summary-row">
-          <span className="summary-label">Max Monthly Payment</span>
-          <span className="summary-value">{formatCurrency(maxMonthlyPayment)}</span>
-        </div>
-        <div className="summary-row">
-          <span className="summary-label">Available Income</span>
-          <span className="summary-value">{formatCurrency(availableIncome)}</span>
-        </div>
-      </div>
-
-      <div className="breakdown">
-        <div className="breakdown-item">
-          <div className="breakdown-label">Debt-to-Income Ratio</div>
-          <div className={`breakdown-value ${risk.color}`}>{debtToIncomeRatio.toFixed(1)}%</div>
-          <div className="breakdown-bar">
-            <div 
-              className={`breakdown-fill ${risk.bg}`}
-              style={{ width: `${Math.min(100, (debtToIncomeRatio / 50) * 100)}%` }}
-            ></div>
+    <div className="calculator-panel">
+      {/* Loan Type Selection */}
+      <div className="loan-types mb-8">
+        {loanTypes.map((type) => (
+          <div
+            key={type.name}
+            onClick={() => handleLoanTypeChange(type.name)}
+            className={`loan-type ${selectedLoanType === type.name ? 'selected' : ''}`}
+          >
+            {type.name}
           </div>
-          <div className={`text-xs mt-2 ${risk.color}`}>Risk Level: {risk.level}</div>
-        </div>
-        <div className="breakdown-item">
-          <div className="breakdown-label">Loan Coverage</div>
-          <div className="breakdown-value">
-            {totalAffordablePrice > 0 ? ((maxLoanAmount / totalAffordablePrice) * 100).toFixed(1) : 0}%
+        ))}
+      </div>
+
+      {/* Main Affordability Display */}
+      <div className="payment-amount mb-8">
+        <div className="amount-value">{formatCurrency(totalAffordable)}</div>
+        <div className="amount-label">What can you afford?</div>
+      </div>
+
+      {/* Progress Bars */}
+      <div className="mb-8">
+        <div className="mb-4">
+          <div className="flex justify-between text-sm text-slate-600 mb-2">
+            <span>Income</span>
+            <span>{formatCurrency(totalIncome)}</span>
           </div>
           <div className="breakdown-bar">
             <div 
               className="breakdown-fill principal-fill"
+              style={{ width: '100%' }}
+            ></div>
+          </div>
+        </div>
+        
+        <div className="mb-6">
+          <div className="flex justify-between text-sm text-slate-600 mb-2">
+            <span>Expense</span>
+            <span>{formatCurrency(totalExpenses)}</span>
+          </div>
+          <div className="breakdown-bar">
+            <div 
+              className="breakdown-fill interest-fill"
               style={{ 
-                width: totalAffordablePrice > 0 
-                  ? `${(maxLoanAmount / totalAffordablePrice) * 100}%` 
-                  : '0%' 
+                width: totalIncome > 0 ? `${(totalExpenses / totalIncome) * 100}%` : '0%' 
               }}
             ></div>
           </div>
         </div>
       </div>
 
-      <div className="action-buttons">
-        <button className="btn btn-primary">
-          Get Pre-Approved
-        </button>
-        <button className="btn btn-secondary">View Breakdown</button>
+      {/* Monthly Payment */}
+      <div className="mb-6">
+        <h4 className="text-lg font-semibold text-slate-700 mb-2">Monthly Payment</h4>
+        <div className="text-2xl font-bold text-slate-800">{formatCurrency(maxMonthlyPayment)}</div>
       </div>
 
-      <div className="disclaimer">
-        <strong>Disclaimer:</strong> This calculator provides estimates based on the 28% debt-to-income rule. 
-        Actual affordability may vary based on credit score, employment history, and lender requirements.
-      </div>
+      {/* Sliders */}
+      <SliderInput
+        label="Loan Tenure"
+        value={loanTerm}
+        onChange={setLoanTerm}
+        min={12}
+        max={480}
+        step={12}
+        formatValue={(val) => {
+          const months = val;
+          const years = Math.floor(months / 12);
+          return years > 0 ? `${years} years` : `${months} months`;
+        }}
+        tooltip="Duration of the loan in years"
+      />
+
+      <SliderInput
+        label="Initial Deposit"
+        value={downPayment}
+        onChange={setDownPayment}
+        min={0}
+        max={5000000}
+        step={50000}
+        formatValue={(val) => formatCurrency(val)}
+        tooltip="Amount you can pay upfront"
+      />
+
+      <SliderInput
+        label="Interest Rate"
+        value={interestRate}
+        onChange={setInterestRate}
+        min={1}
+        max={25}
+        step={0.5}
+        formatValue={(val) => `${val.toFixed(1)}%`}
+        tooltip="Annual interest rate"
+      />
     </div>
   );
 };
