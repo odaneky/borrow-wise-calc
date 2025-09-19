@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatCurrency } from "../lib/utils";
 
 interface AffordabilityResultsProps {
@@ -24,9 +24,41 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
     maxMonthlyPayment
   } = results;
 
+  // Intelligently adjust loan parameters based on affordability
+  useEffect(() => {
+    if (maxMonthlyPayment > 0) {
+      // Auto-adjust loan term based on monthly payment capacity
+      // Higher income = shorter term, lower income = longer term
+      const suggestedTerm = maxMonthlyPayment > 5000 
+        ? 180  // 15 years for high earners
+        : maxMonthlyPayment > 3000 
+        ? 240  // 20 years for medium earners
+        : 360; // 30 years for conservative approach
+      
+      // Auto-adjust down payment based on available income
+      // Suggest 10-20% of maximum loan amount as down payment
+      const maxLoanAmount = calculateLoanAmount();
+      const suggestedDownPayment = Math.max(
+        100000, // Minimum $100K
+        Math.min(
+          maxLoanAmount * 0.15, // 15% of loan amount
+          availableIncome * 6    // 6 months of available income
+        )
+      );
+      
+      setLoanTerm(suggestedTerm);
+      setDownPayment(Math.round(suggestedDownPayment));
+    }
+  }, [maxMonthlyPayment, availableIncome]);
+
   // Calculate loan amount based on payment capacity
   const calculateLoanAmount = () => {
     if (maxMonthlyPayment <= 0 || interestRate <= 0 || loanTerm <= 0) return 0;
+    
+    if (interestRate === 0) {
+      return maxMonthlyPayment * loanTerm;
+    }
+    
     const monthlyRate = (interestRate / 100) / 12;
     return (maxMonthlyPayment * (Math.pow(1 + monthlyRate, loanTerm) - 1)) / 
            (monthlyRate * Math.pow(1 + monthlyRate, loanTerm));
@@ -34,6 +66,8 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
 
   const maxLoanAmount = calculateLoanAmount();
   const totalAffordable = maxLoanAmount + downPayment;
+  
+  const getFrequencyLabel = () => "Monthly";
   
   const loanTypes = [
     { name: "Mortgage", rate: 6.0 },
@@ -87,6 +121,13 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       <div className="text-center mb-4 p-3 bg-white/5 rounded-2xl backdrop-blur-sm relative z-10">
         <div className="text-3xl font-bold mb-2 animate-pulse-slow bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">{formatCurrency(totalAffordable)}</div>
         <div className="text-sm opacity-90 uppercase tracking-wide">What can afford?</div>
+        {maxMonthlyPayment > 0 && (
+          <div className="mt-2 text-xs opacity-75">
+            Based on {getFrequencyLabel()} income: {formatCurrency(totalIncome)} | 
+            Expenses: {formatCurrency(totalExpenses)} | 
+            Available: {formatCurrency(availableIncome)}
+          </div>
+        )}
       </div>
 
       {/* Progress Bars */}
@@ -116,9 +157,14 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
       {/* Monthly Payment */}
       <div className="bg-white/8 rounded-xl p-3 mb-4 relative z-10">
         <div className="flex justify-between items-center py-2">
-          <span className="text-xs opacity-80 uppercase tracking-wide">Monthly Payment</span>
+          <span className="text-xs opacity-80 uppercase tracking-wide">Recommended Monthly Payment</span>
           <span className="font-semibold text-sm">{formatCurrency(maxMonthlyPayment)}</span>
         </div>
+        {maxMonthlyPayment > 0 && (
+          <div className="text-xs opacity-70 mt-1">
+            Based on 28% of available income (${formatCurrency(availableIncome)} monthly)
+          </div>
+        )}
       </div>
 
       {/* Interactive Controls */}
@@ -154,6 +200,11 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               <span>40 years</span>
             </div>
           </div>
+          <div className="text-xs opacity-70 mt-2">
+            💡 Recommended: {Math.floor((maxMonthlyPayment > 5000 ? 180 : maxMonthlyPayment > 3000 ? 240 : 360) / 12)} years
+            {maxMonthlyPayment > 5000 && " (High income - shorter term)"}
+            {maxMonthlyPayment <= 3000 && maxMonthlyPayment > 0 && " (Conservative approach)"}
+          </div>
         </div>
 
         {/* Initial Deposit */}
@@ -188,6 +239,12 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
               <span>$5M</span>
             </div>
           </div>
+          {maxMonthlyPayment > 0 && (
+            <div className="text-xs opacity-70 mt-2">
+              💡 Recommended: {formatCurrency(Math.max(100000, Math.min(calculateLoanAmount() * 0.15, availableIncome * 6)))}
+              <br />Based on 15% of loan or 6 months available income
+            </div>
+          )}
         </div>
 
         {/* Interest Rate */}
