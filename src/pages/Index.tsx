@@ -7,6 +7,9 @@ import AffordabilityCalculator from "@/components/AffordabilityCalculator";
 import AffordabilityResults from "@/components/AffordabilityResults";
 
 const Index = () => {
+  // Temporary flag for testing - set to false to hide header
+  const isLoggedIn = false;
+  
   const [activeTool, setActiveTool] = useState("Loan Calculator");
   const [loanAmount, setLoanAmount] = useState(50000);
   const [loanTerm, setLoanTerm] = useState(60);
@@ -23,7 +26,7 @@ const Index = () => {
   return (
     <div className="min-h-screen p-5">
       <div className="max-w-7xl mx-auto glass-effect rounded-[20px] shadow-2xl overflow-hidden">
-        <Header />
+        {isLoggedIn && <Header />}
         <Toolbar activeTool={activeTool} setActiveTool={setActiveTool} />
         
         <main className="grid lg:grid-cols-2 gap-10 p-10">
