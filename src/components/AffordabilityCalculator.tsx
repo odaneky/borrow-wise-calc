@@ -276,9 +276,9 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <TooltipTrigger>
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>All sources of income converted to monthly amounts</p>
-                </TooltipContent>
+              <TooltipContent className="max-w-48 text-wrap">
+                <p>All sources of income converted to monthly amounts</p>
+              </TooltipContent>
               </Tooltip>
             </div>
           <div className="text-xl font-bold text-blue-600">${totalIncome.toLocaleString()}</div>
@@ -343,8 +343,8 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <TooltipTrigger className="absolute -top-1 -right-1">
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
-                  <div className="max-w-xs">
+                <TooltipContent className="max-w-40 text-wrap">
+                  <div>
                     <p><strong>Annual:</strong> Yearly amount</p>
                     <p><strong>Monthly:</strong> Per month</p>
                     <p><strong>Bi-weekly:</strong> Every 2 weeks</p>
@@ -379,9 +379,9 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <TooltipTrigger>
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>Monthly expenses to calculate debt-to-income ratio</p>
-                </TooltipContent>
+              <TooltipContent className="max-w-48 text-wrap">
+                <p>Monthly expenses to calculate debt-to-income ratio</p>
+              </TooltipContent>
               </Tooltip>
             </div>
           <div className="text-xl font-bold text-red-600">${totalExpenses.toLocaleString()}</div>

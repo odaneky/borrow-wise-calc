@@ -96,7 +96,7 @@ const CalculatorPanel = ({
                 <TooltipTrigger>
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="max-w-48 text-wrap">
                   <p>Different loan types have different rates based on risk</p>
                 </TooltipContent>
               </Tooltip>
@@ -133,7 +133,7 @@ const CalculatorPanel = ({
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="max-w-40 text-wrap">
                   <p>Total amount you want to borrow</p>
                 </TooltipContent>
               </Tooltip>
@@ -196,7 +196,7 @@ const CalculatorPanel = ({
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="max-w-48 text-wrap">
                   <p>Length of time to repay. Longer = lower payments, more interest</p>
                 </TooltipContent>
               </Tooltip>
@@ -255,7 +255,7 @@ const CalculatorPanel = ({
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="max-w-48 text-wrap">
                   <p>Upfront payment to reduce loan amount and monthly payments</p>
                 </TooltipContent>
               </Tooltip>
@@ -318,7 +318,7 @@ const CalculatorPanel = ({
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent className="max-w-48 text-wrap">
                   <p>Annual percentage rate - the cost of borrowing money yearly</p>
                 </TooltipContent>
               </Tooltip>

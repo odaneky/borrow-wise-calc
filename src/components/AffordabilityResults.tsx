@@ -219,9 +219,9 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
                   <TooltipTrigger>
                     <Info className="w-3 h-3 text-white/60 hover:text-white" />
                   </TooltipTrigger>
-                <TooltipContent>
-                  <p>Upfront payment - reduces loan and monthly payments</p>
-                </TooltipContent>
+                  <TooltipContent className="max-w-48 text-wrap">
+                    <p>Upfront payment - reduces loan and monthly payments</p>
+                  </TooltipContent>
                 </Tooltip>
               </div>
             <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
@@ -269,9 +269,9 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>Annual rate charged for borrowing money</p>
-                </TooltipContent>
+                  <TooltipContent className="max-w-40 text-wrap">
+                    <p>Annual rate charged for borrowing money</p>
+                  </TooltipContent>
               </Tooltip>
             </div>
             <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
