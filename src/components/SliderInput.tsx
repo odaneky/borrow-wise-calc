@@ -32,26 +32,13 @@ const SliderInput = ({
     setDisplayValue(value.toString());
   }, [value]);
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(e.target.value);
-    onChange(newValue);
-  };
-
-  const handleSliderStart = () => {
-    console.log('Slider start - setting isSliding to true');
-    setIsSliding(true);
-  };
-
-  const handleSliderEnd = () => {
-    console.log('Slider end - setting isSliding to false');
-    setIsSliding(false);
-  };
-
   const handleSliderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('Slider input - setting isSliding to true, value:', e.target.value);
     setIsSliding(true);
     const newValue = parseFloat(e.target.value);
     onChange(newValue);
+    
+    // Reset sliding state after a short delay
+    setTimeout(() => setIsSliding(false), 150);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,10 +126,7 @@ const SliderInput = ({
           step={step}
           value={value}
           onChange={handleSliderInput}
-          onMouseDown={handleSliderStart}
-          onMouseUp={handleSliderEnd}
-          onTouchStart={handleSliderStart}
-          onTouchEnd={handleSliderEnd}
+          onInput={handleSliderInput}
           className="w-full h-1.5 rounded-full bg-border outline-none cursor-pointer appearance-none slider-thumb"
           style={{
             background: `linear-gradient(90deg, hsl(var(--primary)) ${percentage}%, hsl(var(--border)) ${percentage}%)`
