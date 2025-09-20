@@ -103,10 +103,10 @@ const CalculatorPanel = ({
               <span className="text-gray-600 text-xs">$</span>
               <input
                 type="text"
-                value={loanAmount.toLocaleString()}
+                value={loanAmount === 0 ? "0" : loanAmount.toLocaleString()}
                 onChange={(e) => {
                   const numericValue = parseInt(e.target.value.replace(/,/g, '')) || 0;
-                  if (numericValue >= 100000 && numericValue <= 50000000) {
+                  if (numericValue >= 0 && numericValue <= 50000000) {
                     setLoanAmount(numericValue);
                   }
                 }}
