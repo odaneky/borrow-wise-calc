@@ -48,6 +48,10 @@ export default {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
         header: {
           DEFAULT: "hsl(var(--header))",
           foreground: "hsl(var(--header-foreground))",
@@ -60,6 +64,7 @@ export default {
       },
       boxShadow: {
         card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)",
       },
       borderRadius: {
         lg: "var(--radius)",

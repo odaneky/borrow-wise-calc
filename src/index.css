@@ -9,42 +9,46 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Main colors */
-    --background: 240 10% 96%;
-    --foreground: 215 25% 27%;
+    --background: 250 50% 98%;
+    --foreground: 220 15% 20%;
     
     /* Card colors */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 220 15% 20%;
     
     /* Header colors */
-    --header: 215 25% 27%;
+    --header: 220 15% 20%;
     --header-foreground: 0 0% 100%;
     
-    /* Primary colors - teal/cyan */
-    --primary: 180 78% 57%;
+    /* Primary colors - matching design */
+    --primary: 220 15% 20%;
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 180 78% 47%;
+    --primary-dark: 220 15% 15%;
     
     /* Secondary colors */
     --secondary: 210 40% 96%;
-    --secondary-foreground: 215 25% 27%;
+    --secondary-foreground: 220 15% 20%;
     
-    /* Dark panel */
-    --panel-dark: 215 25% 27%;
+    /* Dark panel for tools section */
+    --panel-dark: 220 15% 20%;
     --panel-dark-foreground: 0 0% 100%;
-    --panel-darker: 215 25% 23%;
+    --panel-darker: 220 15% 15%;
     
     /* Accent colors */
-    --accent: 180 78% 57%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 47 96% 53%;
+    --accent-foreground: 220 15% 20%;
     
     /* Muted colors */
     --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 57%;
+    --muted-foreground: 220 13% 50%;
     
-    /* Success/Interest colors */
+    /* Success/Green colors */
     --success: 134 61% 41%;
     --success-foreground: 0 0% 100%;
+    
+    /* Warning/Red colors */
+    --warning: 0 84% 60%;
+    --warning-foreground: 0 0% 100%;
     
     /* Destructive/Error colors */
     --destructive: 0 84% 60%;
@@ -53,17 +57,18 @@ All colors MUST be HSL.
     /* Border and input */
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 180 78% 57%;
+    --ring: 220 15% 20%;
     
     /* Radius */
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, 180 78% 57%, 180 78% 47%);
-    --gradient-panel: linear-gradient(135deg, 215 25% 27%, 215 25% 23%);
+    --gradient-primary: linear-gradient(135deg, 220 15% 20%, 220 15% 15%);
+    --gradient-panel: linear-gradient(135deg, 220 15% 20%, 220 15% 15%);
     
     /* Shadows */
     --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-elevated: 0 4px 12px 0 rgb(0 0 0 / 0.1), 0 2px 6px -2px rgb(0 0 0 / 0.1);
   }
 
   .dark {
@@ -112,9 +117,9 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: hsl(var(--background));
     min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   }
   
   /* Slider styles */
