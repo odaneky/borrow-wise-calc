@@ -38,14 +38,17 @@ const SliderInput = ({
   };
 
   const handleSliderStart = () => {
+    console.log('Slider start - setting isSliding to true');
     setIsSliding(true);
   };
 
   const handleSliderEnd = () => {
+    console.log('Slider end - setting isSliding to false');
     setIsSliding(false);
   };
 
   const handleSliderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('Slider input - setting isSliding to true, value:', e.target.value);
     setIsSliding(true);
     const newValue = parseFloat(e.target.value);
     onChange(newValue);
@@ -69,6 +72,8 @@ const SliderInput = ({
   };
 
   const percentage = ((value - min) / (max - min)) * 100;
+
+  console.log('SliderInput render - isSliding:', isSliding, 'value:', value, 'percentage:', percentage);
 
   return (
     <div className="mb-6">
