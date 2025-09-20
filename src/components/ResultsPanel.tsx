@@ -209,7 +209,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-40 text-wrap">
+                <TooltipContent className="max-w-40 text-wrap bg-slate-800 text-white border border-slate-700">
                   <p>Loan amount minus your deposit</p>
                 </TooltipContent>
               </Tooltip>
@@ -223,7 +223,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-48 text-wrap">
+                <TooltipContent className="max-w-48 text-wrap bg-slate-800 text-white border border-slate-700">
                   <p>Principal + total interest over loan term</p>
                 </TooltipContent>
               </Tooltip>
@@ -241,7 +241,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-40 text-wrap">
+                <TooltipContent className="max-w-40 text-wrap bg-slate-800 text-white border border-slate-700">
                   <p>Original loan amount borrowed</p>
                 </TooltipContent>
               </Tooltip>
@@ -261,7 +261,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-40 text-wrap">
+                <TooltipContent className="max-w-40 text-wrap bg-slate-800 text-white border border-slate-700">
                   <p>Extra cost for borrowing money</p>
                 </TooltipContent>
               </Tooltip>
@@ -285,7 +285,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-40 text-wrap">
+                <TooltipContent className="max-w-40 text-wrap bg-slate-800 text-white border border-slate-700">
                   <p>Total interest as % of principal</p>
                 </TooltipContent>
               </Tooltip>
@@ -299,7 +299,7 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
                 <TooltipTrigger>
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-40 text-wrap">
+                <TooltipContent className="max-w-40 text-wrap bg-slate-800 text-white border border-slate-700">
                   <p>When loan will be fully paid</p>
                 </TooltipContent>
               </Tooltip>

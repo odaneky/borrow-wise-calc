@@ -276,7 +276,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <TooltipTrigger>
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-              <TooltipContent className="max-w-48 text-wrap">
+              <TooltipContent className="max-w-48 text-wrap bg-slate-800 text-white border border-slate-700">
                 <p>All sources of income converted to monthly amounts</p>
               </TooltipContent>
               </Tooltip>
@@ -343,7 +343,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <TooltipTrigger className="absolute -top-1 -right-1">
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-                <TooltipContent className="max-w-40 text-wrap">
+                <TooltipContent className="max-w-40 text-wrap bg-slate-800 text-white border border-slate-700">
                   <div>
                     <p><strong>Annual:</strong> Yearly amount</p>
                     <p><strong>Monthly:</strong> Per month</p>
@@ -379,7 +379,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <TooltipTrigger>
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
-              <TooltipContent className="max-w-48 text-wrap">
+              <TooltipContent className="max-w-48 text-wrap bg-slate-800 text-white border border-slate-700">
                 <p>Monthly expenses to calculate debt-to-income ratio</p>
               </TooltipContent>
               </Tooltip>
