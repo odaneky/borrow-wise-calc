@@ -54,6 +54,15 @@ const CalculatorPanel = ({
     setDeposit(calculatedDeposit);
   };
 
+  const handleLoanAmountChange = (newLoanAmount: number) => {
+    setLoanAmount(newLoanAmount);
+    // Recalculate deposit based on current percentage
+    if (depositPercentage > 0) {
+      const calculatedDeposit = (newLoanAmount * depositPercentage) / 100;
+      setDeposit(calculatedDeposit);
+    }
+  };
+
   const handleSliderStart = (sliderType: string) => {
     setSlidingStates(prev => ({ ...prev, [sliderType]: true }));
   };
@@ -114,7 +123,7 @@ const CalculatorPanel = ({
                 onChange={(e) => {
                   const numericValue = parseInt(e.target.value.replace(/,/g, '')) || 0;
                   if (numericValue >= 0 && numericValue <= 50000000) {
-                    setLoanAmount(numericValue);
+                    handleLoanAmountChange(numericValue);
                   }
                 }}
                 className="w-20 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
@@ -141,7 +150,7 @@ const CalculatorPanel = ({
               max={50000000}
               step={100000}
               value={loanAmount}
-              onChange={(e) => setLoanAmount(parseInt(e.target.value))}
+              onChange={(e) => handleLoanAmountChange(parseInt(e.target.value))}
               onMouseDown={() => handleSliderStart('loanAmount')}
               onMouseUp={() => handleSliderEnd('loanAmount')}
               onTouchStart={() => handleSliderStart('loanAmount')}
@@ -241,7 +250,7 @@ const CalculatorPanel = ({
               type="range"
               min={0}
               max={100}
-              step={5}
+              step={1}
               value={depositPercentage}
               onChange={(e) => handleDepositPercentageChange(parseInt(e.target.value))}
               onMouseDown={() => handleSliderStart('deposit')}
