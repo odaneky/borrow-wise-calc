@@ -28,6 +28,7 @@ const CalculatorPanel = ({
   setInterestRate
 }: CalculatorPanelProps) => {
   const [selectedLoanType, setSelectedLoanType] = useState("auto");
+  const [depositPercentage, setDepositPercentage] = useState(0); // New state for percentage
   const [slidingStates, setSlidingStates] = useState({
     loanAmount: false,
     loanTerm: false,
@@ -45,6 +46,12 @@ const CalculatorPanel = ({
   const handleLoanTypeSelect = (type: LoanType) => {
     setSelectedLoanType(type.id);
     setInterestRate(type.rate);
+  };
+
+  const handleDepositPercentageChange = (percentage: number) => {
+    setDepositPercentage(percentage);
+    const calculatedDeposit = (loanAmount * percentage) / 100;
+    setDeposit(calculatedDeposit);
   };
 
   const handleSliderStart = (sliderType: string) => {
@@ -221,11 +228,11 @@ const CalculatorPanel = ({
             {slidingStates.deposit && (
               <div 
                 className="absolute -top-12 bg-emerald-600 text-white px-3 py-2 rounded-xl font-semibold text-sm shadow-lg z-30 transform -translate-x-1/2 animate-scale-in whitespace-nowrap"
-                style={{ left: `${(deposit / 5000000) * 100}%` }}
+                style={{ left: `${depositPercentage}%` }}
               >
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></div>
-                  <span>{formatCurrency(deposit)} JMD</span>
+                  <span>{depositPercentage}% ({formatCurrency(deposit)} JMD)</span>
                 </div>
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-emerald-600"></div>
               </div>
@@ -233,10 +240,10 @@ const CalculatorPanel = ({
             <input
               type="range"
               min={0}
-              max={5000000}
-              step={50000}
-              value={deposit}
-              onChange={(e) => setDeposit(parseInt(e.target.value))}
+              max={100}
+              step={5}
+              value={depositPercentage}
+              onChange={(e) => handleDepositPercentageChange(parseInt(e.target.value))}
               onMouseDown={() => handleSliderStart('deposit')}
               onMouseUp={() => handleSliderEnd('deposit')}
               onTouchStart={() => handleSliderStart('deposit')}
@@ -244,8 +251,8 @@ const CalculatorPanel = ({
               className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider-thumb"
             />
             <div className="flex justify-between mt-1 text-xs text-gray-500">
-              <span>$0</span>
-              <span>$5M</span>
+              <span>0%</span>
+              <span>100%</span>
             </div>
           </div>
         </div>
