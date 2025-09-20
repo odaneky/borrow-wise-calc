@@ -26,6 +26,7 @@ const SliderInput = ({
   formatValue
 }: SliderInputProps) => {
   const [displayValue, setDisplayValue] = useState(value.toString());
+  const [isSliding, setIsSliding] = useState(false);
 
   useEffect(() => {
     setDisplayValue(value.toString());
@@ -34,6 +35,14 @@ const SliderInput = ({
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
     onChange(newValue);
+  };
+
+  const handleSliderMouseDown = () => {
+    setIsSliding(true);
+  };
+
+  const handleSliderMouseUp = () => {
+    setIsSliding(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +104,16 @@ const SliderInput = ({
         )}
       </div>
       
-      <div className="mt-2.5">
+      <div className="mt-2.5 relative">
+        {isSliding && (
+          <div 
+            className="absolute -top-12 bg-primary text-primary-foreground px-3 py-2 rounded-lg font-bold text-lg shadow-lg z-20 transform -translate-x-1/2 animate-scale-in"
+            style={{ left: `${percentage}%` }}
+          >
+            {formatValue ? formatValue(value) : `${prefix}${value}${suffix}`}
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary"></div>
+          </div>
+        )}
         <input
           type="range"
           min={min}
@@ -103,6 +121,10 @@ const SliderInput = ({
           step={step}
           value={value}
           onChange={handleSliderChange}
+          onMouseDown={handleSliderMouseDown}
+          onMouseUp={handleSliderMouseUp}
+          onTouchStart={handleSliderMouseDown}
+          onTouchEnd={handleSliderMouseUp}
           className="w-full h-1.5 rounded-full bg-border outline-none cursor-pointer appearance-none slider-thumb"
           style={{
             background: `linear-gradient(90deg, hsl(var(--primary)) ${percentage}%, hsl(var(--border)) ${percentage}%)`
