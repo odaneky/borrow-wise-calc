@@ -116,15 +116,14 @@ const CalculatorPanel = ({
           <div className="relative">
             {slidingStates.loanAmount && (
               <div 
-                className="absolute -top-16 bg-background border-2 border-primary text-foreground px-4 py-3 rounded-2xl font-bold text-lg shadow-xl z-30 transform -translate-x-1/2 animate-scale-in min-w-max"
+                className="absolute -top-12 bg-slate-800 text-white px-3 py-2 rounded-xl font-semibold text-sm shadow-lg z-30 transform -translate-x-1/2 animate-scale-in whitespace-nowrap"
                 style={{ left: `${((loanAmount - 100000) / (50000000 - 100000)) * 100}%` }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-primary">{formatCurrency(loanAmount)} JMD</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                  <span>{formatCurrency(loanAmount)} JMD</span>
                 </div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-primary"></div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 translate-y-[-2px] w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-background"></div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-800"></div>
               </div>
             )}
             <input
@@ -166,15 +165,14 @@ const CalculatorPanel = ({
           <div className="relative">
             {slidingStates.loanTerm && (
               <div 
-                className="absolute -top-16 bg-background border-2 border-primary text-foreground px-4 py-3 rounded-2xl font-bold text-lg shadow-xl z-30 transform -translate-x-1/2 animate-scale-in min-w-max"
+                className="absolute -top-12 bg-blue-600 text-white px-3 py-2 rounded-xl font-semibold text-sm shadow-lg z-30 transform -translate-x-1/2 animate-scale-in whitespace-nowrap"
                 style={{ left: `${((loanTerm - 12) / (480 - 12)) * 100}%` }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-primary">{Math.round(loanTerm / 12)} years</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></div>
+                  <span>{Math.round(loanTerm / 12)} years</span>
                 </div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-primary"></div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 translate-y-[-2px] w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-background"></div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-blue-600"></div>
               </div>
             )}
             <input
@@ -218,15 +216,14 @@ const CalculatorPanel = ({
           <div className="relative">
             {slidingStates.deposit && (
               <div 
-                className="absolute -top-16 bg-background border-2 border-primary text-foreground px-4 py-3 rounded-2xl font-bold text-lg shadow-xl z-30 transform -translate-x-1/2 animate-scale-in min-w-max"
+                className="absolute -top-12 bg-emerald-600 text-white px-3 py-2 rounded-xl font-semibold text-sm shadow-lg z-30 transform -translate-x-1/2 animate-scale-in whitespace-nowrap"
                 style={{ left: `${(deposit / 5000000) * 100}%` }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-primary">{formatCurrency(deposit)} JMD</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></div>
+                  <span>{formatCurrency(deposit)} JMD</span>
                 </div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-primary"></div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 translate-y-[-2px] w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-background"></div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-emerald-600"></div>
               </div>
             )}
             <input
@@ -269,15 +266,14 @@ const CalculatorPanel = ({
           <div className="relative">
             {slidingStates.interestRate && (
               <div 
-                className="absolute -top-16 bg-background border-2 border-primary text-foreground px-4 py-3 rounded-2xl font-bold text-lg shadow-xl z-30 transform -translate-x-1/2 animate-scale-in min-w-max"
+                className="absolute -top-12 bg-purple-600 text-white px-3 py-2 rounded-xl font-semibold text-sm shadow-lg z-30 transform -translate-x-1/2 animate-scale-in whitespace-nowrap"
                 style={{ left: `${(interestRate / 25) * 100}%` }}
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                  <span className="text-primary">{interestRate}%</span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse"></div>
+                  <span>{interestRate}%</span>
                 </div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-primary"></div>
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 translate-y-[-2px] w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-background"></div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-purple-600"></div>
               </div>
             )}
             <input
