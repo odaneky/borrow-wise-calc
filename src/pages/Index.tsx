@@ -31,39 +31,41 @@ const Index = () => {
   });
 
   return (
-    <div className="min-h-screen p-5">
-      <div className="max-w-7xl mx-auto glass-effect rounded-[20px] shadow-2xl overflow-hidden">
-        <Header />
-        <Toolbar activeTool={activeTool} setActiveTool={setActiveTool} />
-        
-        <main className="grid lg:grid-cols-2 gap-10 p-10">
-          {activeTool === "Loan Calculator" ? (
-            <>
-              <CalculatorPanel
-                loanAmount={loanAmount}
-                setLoanAmount={setLoanAmount}
-                loanTerm={loanTerm}
-                setLoanTerm={setLoanTerm}
-                deposit={deposit}
-                setDeposit={setDeposit}
-                interestRate={interestRate}
-                setInterestRate={setInterestRate}
-              />
-              
-              <ResultsPanel
-                loanAmount={loanAmount}
-                loanTerm={loanTerm}
-                deposit={deposit}
-                interestRate={interestRate}
-              />
-            </>
-          ) : (
-            <>
-              <AffordabilityCalculator onCalculate={setAffordabilityResults} />
-              <AffordabilityResults results={affordabilityResults} />
-            </>
-          )}
-        </main>
+    <div className="h-screen flex flex-col">
+      <Header />
+      <div className="flex-1 flex flex-col p-5">
+        <div className="flex-1 max-w-7xl mx-auto w-full glass-effect rounded-[20px] shadow-2xl overflow-hidden flex flex-col">
+          <Toolbar activeTool={activeTool} setActiveTool={setActiveTool} />
+          
+          <main className="flex-1 grid lg:grid-cols-2 gap-10 p-10">
+            {activeTool === "Loan Calculator" ? (
+              <>
+                <CalculatorPanel
+                  loanAmount={loanAmount}
+                  setLoanAmount={setLoanAmount}
+                  loanTerm={loanTerm}
+                  setLoanTerm={setLoanTerm}
+                  deposit={deposit}
+                  setDeposit={setDeposit}
+                  interestRate={interestRate}
+                  setInterestRate={setInterestRate}
+                />
+                
+                <ResultsPanel
+                  loanAmount={loanAmount}
+                  loanTerm={loanTerm}
+                  deposit={deposit}
+                  interestRate={interestRate}
+                />
+              </>
+            ) : (
+              <>
+                <AffordabilityCalculator onCalculate={setAffordabilityResults} />
+                <AffordabilityResults results={affordabilityResults} />
+              </>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );
