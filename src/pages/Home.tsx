@@ -210,6 +210,120 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Active Loans Section */}
+      <section className="px-6 pb-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-foreground">Active Loans</h2>
+            <Link to="/loans" className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Manage all <ChevronRight className="h-4 w-4 ml-1" />
+            </Link>
+          </div>
+          
+          <div className="space-y-3">
+            {/* Personal Loan */}
+            <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-green-500">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
+                      <DollarSign className="h-5 w-5 text-green-500" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-semibold text-foreground">Personal Loan</h3>
+                        <Badge variant="outline" className="text-xs">Loan #PL-5847</Badge>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Next Payment</p>
+                          <p className="text-sm font-semibold text-foreground">$425</p>
+                          <p className="text-xs text-muted-foreground">Dec 15, 2024</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Remaining</p>
+                          <p className="text-sm font-semibold text-foreground">$8,750</p>
+                          <p className="text-xs text-muted-foreground">18 payments left</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Interest Rate</p>
+                          <p className="text-sm font-semibold text-green-500">6.2% APR</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Calendar className="h-3 w-3" />
+                        <span>Payment due in 5 days</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" className="text-xs bg-green-500 hover:bg-green-600">
+                      Pay Now <ArrowRight className="h-3 w-3 ml-1" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-xs">
+                      Details
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Auto Loan */}
+            <Card className="rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border-l-4 border-l-blue-500">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                      <Car className="h-5 w-5 text-blue-500" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-semibold text-foreground">Auto Loan - 2023 Honda CR-V</h3>
+                        <Badge variant="outline" className="text-xs">Loan #AL-2901</Badge>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Next Payment</p>
+                          <p className="text-sm font-semibold text-foreground">$385</p>
+                          <p className="text-xs text-muted-foreground">Dec 20, 2024</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Remaining</p>
+                          <p className="text-sm font-semibold text-foreground">$18,420</p>
+                          <p className="text-xs text-muted-foreground">48 payments left</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Interest Rate</p>
+                          <p className="text-sm font-semibold text-blue-500">4.9% APR</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <Calendar className="h-3 w-3" />
+                        <span>Payment due in 10 days</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" className="text-xs bg-blue-500 hover:bg-blue-600">
+                      Pay Now <ArrowRight className="h-3 w-3 ml-1" />
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-xs">
+                      Details
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Our Products Section - Enhanced */}
       <section className="px-6 pb-12">
         <div className="max-w-6xl mx-auto">
