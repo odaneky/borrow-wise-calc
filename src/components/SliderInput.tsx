@@ -87,7 +87,7 @@ const SliderInput = ({
         )}
       </label>
       
-      <div className="flex items-center bg-secondary border-2 border-border rounded-lg transition-all duration-300 focus-within:border-primary focus-within:shadow-[0_0_0_3px_hsl(var(--primary)/0.1)] overflow-hidden">
+      <div className={`flex items-center bg-secondary border-2 border-border rounded-lg transition-all duration-300 focus-within:border-primary focus-within:shadow-[0_0_0_3px_hsl(var(--primary)/0.1)] overflow-hidden ${isSliding ? 'ring-2 ring-primary/20 scale-105' : ''}`}>
         {prefix && (
           <span className="px-4 py-4 bg-muted text-muted-foreground font-semibold">
             {prefix}
@@ -98,7 +98,7 @@ const SliderInput = ({
           value={displayValue}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
-          className="flex-1 border-none px-4 py-4 text-base bg-transparent outline-none"
+          className={`flex-1 border-none px-4 py-4 bg-transparent outline-none transition-all duration-300 font-bold ${isSliding ? 'text-2xl text-primary' : 'text-base'}`}
           min={min}
           max={max}
           step={step}
