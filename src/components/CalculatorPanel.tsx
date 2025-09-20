@@ -92,20 +92,14 @@ const CalculatorPanel = ({
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <label className="block text-sm font-semibold text-slate-700">Select a loan type</label>
-            <Tooltip>
-              <TooltipTrigger>
-                <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <div className="max-w-xs">
-                  <p className="font-semibold mb-1">Loan Types:</p>
-                  <p><strong>Unsecured:</strong> No collateral required, higher rates</p>
-                  <p><strong>Auto Loan:</strong> Vehicle serves as collateral</p>
-                  <p><strong>Mortgage:</strong> Property serves as collateral, lowest rates</p>
-                  <p><strong>Pay Day:</strong> Short-term, high-interest emergency loans</p>
-                </div>
-              </TooltipContent>
-            </Tooltip>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Different loan types have different rates based on risk</p>
+                </TooltipContent>
+              </Tooltip>
           </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {loanTypes.map((type) => (
@@ -140,7 +134,7 @@ const CalculatorPanel = ({
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>The total amount you want to borrow. This is also called the principal amount.</p>
+                  <p>Total amount you want to borrow</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -203,7 +197,7 @@ const CalculatorPanel = ({
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>The length of time you have to repay the loan. Longer terms mean lower monthly payments but more total interest paid.</p>
+                  <p>Length of time to repay. Longer = lower payments, more interest</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -262,7 +256,7 @@ const CalculatorPanel = ({
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Money paid upfront to reduce the loan amount. Also called a down payment. Higher deposits result in lower monthly payments.</p>
+                  <p>Upfront payment to reduce loan amount and monthly payments</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -325,7 +319,7 @@ const CalculatorPanel = ({
                   <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>The annual percentage rate (APR) charged by the lender. This is the cost of borrowing money, expressed as a yearly percentage.</p>
+                  <p>Annual percentage rate - the cost of borrowing money yearly</p>
                 </TooltipContent>
               </Tooltip>
             </div>

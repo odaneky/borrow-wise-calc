@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 
 interface ResultsPanelProps {
   loanAmount: number;
@@ -167,7 +169,8 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-4 text-white relative overflow-hidden">
+    <TooltipProvider>
+      <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-4 text-white relative overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0 opacity-5">
         <div className="animate-float w-full h-full bg-gradient-to-r from-transparent via-white to-transparent" 
@@ -197,55 +200,115 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
         <div className="text-sm opacity-90 uppercase tracking-wide">Monthly Payment</div>
       </div>
 
-      {/* Loan Summary */}
-      <div className="bg-white/8 rounded-xl p-3 mb-4 relative z-10">
-        <div className="flex justify-between items-center py-2 border-b border-white/10">
-          <span className="text-xs opacity-80">Total Loan Amount</span>
-          <span className="font-semibold text-sm">{formatCurrency(calculations.totalLoan)}</span>
+        {/* Loan Summary */}
+        <div className="bg-white/8 rounded-xl p-3 mb-4 relative z-10">
+          <div className="flex justify-between items-center py-2 border-b border-white/10">
+            <div className="flex items-center gap-2">
+              <span className="text-xs opacity-80">Total Loan Amount</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Loan amount minus your deposit</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <span className="font-semibold text-sm">{formatCurrency(calculations.totalLoan)}</span>
+          </div>
+          <div className="flex justify-between items-center py-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xs opacity-80">Total Amount to Pay</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Principal + total interest over loan term</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <span className="font-semibold text-sm">{formatCurrency(calculations.totalPayment)}</span>
+          </div>
         </div>
-        <div className="flex justify-between items-center py-2">
-          <span className="text-xs opacity-80">Total Amount to Pay</span>
-          <span className="font-semibold text-sm">{formatCurrency(calculations.totalPayment)}</span>
-        </div>
-      </div>
 
-      {/* Principal and Interest Breakdown */}
-      <div className="grid grid-cols-2 gap-3 mb-4 relative z-10">
-        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Total Principal</div>
-          <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.totalLoan)}</div>
-          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-700 breakdown-fill"
-              style={{ width: `${(calculations.totalLoan / calculations.totalPayment) * 100}%` }}
-            />
+        {/* Principal and Interest Breakdown */}
+        <div className="grid grid-cols-2 gap-3 mb-4 relative z-10">
+          <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="text-xs opacity-80 uppercase tracking-wide">Total Principal</div>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Original loan amount borrowed</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.totalLoan)}</div>
+            <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-700 breakdown-fill"
+                style={{ width: `${(calculations.totalLoan / calculations.totalPayment) * 100}%` }}
+              />
+            </div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="text-xs opacity-80 uppercase tracking-wide">Total Interest</div>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Extra cost for borrowing money</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.totalInterest)}</div>
+            <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-700 breakdown-fill"
+                style={{ width: `${(calculations.totalInterest / calculations.totalPayment) * 100}%` }}
+              />
+            </div>
           </div>
         </div>
-        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Total Interest</div>
-          <div className="text-sm font-semibold mb-2">{formatCurrency(calculations.totalInterest)}</div>
-          <div className="h-2 bg-white/20 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-700 breakdown-fill"
-              style={{ width: `${(calculations.totalInterest / calculations.totalPayment) * 100}%` }}
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Additional Info */}
-      <div className="grid grid-cols-2 gap-3 mb-4 relative z-10">
-        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Effective Rate</div>
-          <div className="text-sm font-semibold">{calculations.effectiveRate.toFixed(2)}%</div>
-        </div>
-        <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-          <div className="text-xs opacity-80 mb-1 uppercase tracking-wide">Payback Date</div>
-          <div className="text-sm font-semibold">
-            {calculations.paybackDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+        {/* Additional Info */}
+        <div className="grid grid-cols-2 gap-3 mb-4 relative z-10">
+          <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="text-xs opacity-80 uppercase tracking-wide">Effective Rate</div>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Total interest as % of principal</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="text-sm font-semibold">{calculations.effectiveRate.toFixed(2)}%</div>
+          </div>
+          <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="text-xs opacity-80 uppercase tracking-wide">Payback Date</div>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>When loan will be fully paid</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="text-sm font-semibold">
+              {calculations.paybackDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Action Buttons */}
       <div className="flex gap-3 mb-4 relative z-10">
@@ -342,8 +405,9 @@ const ResultsPanel = ({ loanAmount, loanTerm, deposit, interestRate }: ResultsPa
       {/* Disclaimer */}
       <div className="bg-white/10 rounded-xl p-3 text-xs opacity-80 leading-relaxed relative z-10 backdrop-blur-sm">
         <strong>Disclaimer:</strong> This calculator provides estimates only. Actual loan terms may vary based on your credit profile and lender requirements.
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 

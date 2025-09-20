@@ -219,9 +219,9 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
                   <TooltipTrigger>
                     <Info className="w-3 h-3 text-white/60 hover:text-white" />
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Money paid upfront to reduce the loan amount. Higher deposits lower monthly payments and total interest.</p>
-                  </TooltipContent>
+                <TooltipContent>
+                  <p>Upfront payment - reduces loan and monthly payments</p>
+                </TooltipContent>
                 </Tooltip>
               </div>
             <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
@@ -270,7 +270,7 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
                   <Info className="w-3 h-3 text-white/60 hover:text-white" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>The annual percentage rate (APR) charged by the lender. This determines how much extra you pay for borrowing money.</p>
+                  <p>Annual rate charged for borrowing money</p>
                 </TooltipContent>
               </Tooltip>
             </div>

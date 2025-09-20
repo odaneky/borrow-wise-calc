@@ -277,7 +277,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>List all sources of income. Amounts will be converted to monthly values for calculation.</p>
+                  <p>All sources of income converted to monthly amounts</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -345,11 +345,10 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 </TooltipTrigger>
                 <TooltipContent>
                   <div className="max-w-xs">
-                    <p className="font-semibold mb-1">Income Frequencies:</p>
-                    <p><strong>Annual:</strong> Yearly total amount</p>
-                    <p><strong>Monthly:</strong> Amount received per month</p>
-                    <p><strong>Bi-weekly:</strong> Amount received every 2 weeks (26 payments/year)</p>
-                    <p><strong>Weekly:</strong> Amount received every week</p>
+                    <p><strong>Annual:</strong> Yearly amount</p>
+                    <p><strong>Monthly:</strong> Per month</p>
+                    <p><strong>Bi-weekly:</strong> Every 2 weeks</p>
+                    <p><strong>Weekly:</strong> Every week</p>
                   </div>
                 </TooltipContent>
               </Tooltip>
@@ -381,7 +380,7 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                   <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>List all your monthly expenses. This helps calculate your debt-to-income ratio and available funds for loan payments.</p>
+                  <p>Monthly expenses to calculate debt-to-income ratio</p>
                 </TooltipContent>
               </Tooltip>
             </div>
