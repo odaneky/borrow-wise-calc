@@ -37,12 +37,18 @@ const SliderInput = ({
     onChange(newValue);
   };
 
-  const handleSliderMouseDown = () => {
+  const handleSliderStart = () => {
     setIsSliding(true);
   };
 
-  const handleSliderMouseUp = () => {
+  const handleSliderEnd = () => {
     setIsSliding(false);
+  };
+
+  const handleSliderInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsSliding(true);
+    const newValue = parseFloat(e.target.value);
+    onChange(newValue);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,11 +126,11 @@ const SliderInput = ({
           max={max}
           step={step}
           value={value}
-          onChange={handleSliderChange}
-          onMouseDown={handleSliderMouseDown}
-          onMouseUp={handleSliderMouseUp}
-          onTouchStart={handleSliderMouseDown}
-          onTouchEnd={handleSliderMouseUp}
+          onChange={handleSliderInput}
+          onMouseDown={handleSliderStart}
+          onMouseUp={handleSliderEnd}
+          onTouchStart={handleSliderStart}
+          onTouchEnd={handleSliderEnd}
           className="w-full h-1.5 rounded-full bg-border outline-none cursor-pointer appearance-none slider-thumb"
           style={{
             background: `linear-gradient(90deg, hsl(var(--primary)) ${percentage}%, hsl(var(--border)) ${percentage}%)`
