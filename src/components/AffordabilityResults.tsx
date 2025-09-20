@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 import { formatCurrency } from "../lib/utils";
 
 interface AffordabilityResultsProps {
@@ -84,16 +86,17 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-4 text-white relative overflow-hidden h-fit">
-      {/* Animated background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="animate-float w-full h-full bg-gradient-to-r from-transparent via-white to-transparent" 
-             style={{
-               backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
-               backgroundSize: '20px 20px'
-             }}>
+    <TooltipProvider>
+      <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-2xl p-4 text-white relative overflow-hidden h-fit">
+        {/* Animated background */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="animate-float w-full h-full bg-gradient-to-r from-transparent via-white to-transparent" 
+               style={{
+                 backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+                 backgroundSize: '20px 20px'
+               }}>
+          </div>
         </div>
-      </div>
 
       {/* Loan Type Selection - Inline Cards */}
       <div className="flex gap-2 mb-4 justify-center relative z-10">
@@ -207,10 +210,20 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
           </div>
         </div>
 
-        {/* Initial Deposit */}
-        <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-xs opacity-80 uppercase tracking-wide">Initial Deposit</span>
+          {/* Initial Deposit */}
+          <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
+            <div className="flex justify-between items-center mb-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs opacity-80 uppercase tracking-wide">Initial Deposit</span>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Money paid upfront to reduce the loan amount. Higher deposits lower monthly payments and total interest.</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
               <span className="text-white/80 text-xs">$</span>
               <input
@@ -250,7 +263,17 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
         {/* Interest Rate */}
         <div className="bg-white/10 p-3 rounded-xl backdrop-blur-sm">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xs opacity-80 uppercase tracking-wide">Interest Rate</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs opacity-80 uppercase tracking-wide">Interest Rate</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-white/60 hover:text-white" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>The annual percentage rate (APR) charged by the lender. This determines how much extra you pay for borrowing money.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="flex items-center gap-2 bg-white/10 px-2 py-1 rounded-lg border border-white/20">
               <input
                 type="number"
@@ -281,7 +304,8 @@ const AffordabilityResults = ({ results }: AffordabilityResultsProps) => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </TooltipProvider>
   );
 };
 

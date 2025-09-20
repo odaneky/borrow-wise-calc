@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 
 interface LoanType {
   id: string;
@@ -81,13 +83,30 @@ const CalculatorPanel = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl p-4">
-      <h3 className="text-lg font-bold text-slate-800 mb-1">Loan Calculator</h3>
-      <p className="text-slate-600 mb-4">Work out your payments with precision</p>
+    <TooltipProvider>
+      <div className="bg-white rounded-2xl p-4">
+        <h3 className="text-lg font-bold text-slate-800 mb-1">Loan Calculator</h3>
+        <p className="text-slate-600 mb-4">Work out your payments with precision</p>
 
-      {/* Loan Type Selection */}
-      <div className="mb-4">
-        <label className="block text-sm font-semibold text-slate-700 mb-2">Select a loan type</label>
+        {/* Loan Type Selection */}
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <label className="block text-sm font-semibold text-slate-700">Select a loan type</label>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <div className="max-w-xs">
+                  <p className="font-semibold mb-1">Loan Types:</p>
+                  <p><strong>Unsecured:</strong> No collateral required, higher rates</p>
+                  <p><strong>Auto Loan:</strong> Vehicle serves as collateral</p>
+                  <p><strong>Mortgage:</strong> Property serves as collateral, lowest rates</p>
+                  <p><strong>Pay Day:</strong> Short-term, high-interest emergency loans</p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
           {loanTypes.map((type) => (
             <button
@@ -114,7 +133,17 @@ const CalculatorPanel = ({
         {/* Loan Amount */}
         <div className="bg-gray-50 p-3 rounded-xl">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Loan Amount</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-gray-800">Loan Amount</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>The total amount you want to borrow. This is also called the principal amount.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <span className="text-gray-600 text-xs">$</span>
               <input
@@ -167,7 +196,17 @@ const CalculatorPanel = ({
         {/* Loan Term */}
         <div className="bg-gray-50 p-3 rounded-xl">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Loan Term</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-gray-800">Loan Term</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>The length of time you have to repay the loan. Longer terms mean lower monthly payments but more total interest paid.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <input
                 type="number"
@@ -216,7 +255,17 @@ const CalculatorPanel = ({
         {/* Initial Deposit */}
         <div className="bg-gray-50 p-3 rounded-xl">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Initial Deposit</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-gray-800">Initial Deposit</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Money paid upfront to reduce the loan amount. Also called a down payment. Higher deposits result in lower monthly payments.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <span className="text-gray-600 text-xs">$</span>
               <input
@@ -269,7 +318,17 @@ const CalculatorPanel = ({
         {/* Interest Rate */}
         <div className="bg-gray-50 p-3 rounded-xl">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm font-semibold text-gray-800">Interest Rate</span>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold text-gray-800">Interest Rate</span>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>The annual percentage rate (APR) charged by the lender. This is the cost of borrowing money, expressed as a yearly percentage.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <input
                 type="number"
@@ -316,7 +375,8 @@ const CalculatorPanel = ({
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </TooltipProvider>
   );
 };
 

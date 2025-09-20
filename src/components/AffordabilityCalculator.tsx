@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 
 interface IncomeItem {
   id: string;
@@ -258,16 +260,27 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
   }, [totalIncome, totalExpenses, onCalculate]);
 
   return (
-    <div className="calculator-panel">
-      <div className="mb-6">
-        <h3 className="calculator-title">Affordability Calculator</h3>
-        <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
-      </div>
+    <TooltipProvider>
+      <div className="calculator-panel">
+        <div className="mb-6">
+          <h3 className="calculator-title">Affordability Calculator</h3>
+          <p className="calculator-subtitle">Complete the form below and see what you can afford</p>
+        </div>
 
-      {/* Income Details Section */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-3">
-          <h4 className="text-lg font-semibold text-slate-700">Income Details</h4>
+        {/* Income Details Section */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <h4 className="text-lg font-semibold text-slate-700">Income Details</h4>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>List all sources of income. Amounts will be converted to monthly values for calculation.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
           <div className="text-xl font-bold text-blue-600">${totalIncome.toLocaleString()}</div>
         </div>
 
@@ -315,16 +328,32 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
                 <option key={type} value={type}>{type}</option>
               ))}
             </select>
-            <select
-              value={newIncomeFrequency}
-              onChange={(e) => setNewIncomeFrequency(e.target.value as 'annual' | 'monthly' | 'biweekly' | 'weekly')}
-              className="w-28 px-2 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-xs"
-            >
-              <option value="monthly">Monthly</option>
-              <option value="annual">Annual</option>
-              <option value="biweekly">Bi-weekly</option>
-              <option value="weekly">Weekly</option>
-            </select>
+            <div className="relative">
+              <select
+                value={newIncomeFrequency}
+                onChange={(e) => setNewIncomeFrequency(e.target.value as 'annual' | 'monthly' | 'biweekly' | 'weekly')}
+                className="w-28 px-2 py-2 bg-gray-50 border-2 border-gray-200 rounded-xl text-slate-700 focus:border-blue-400 focus:outline-none text-xs"
+              >
+                <option value="monthly">Monthly</option>
+                <option value="annual">Annual</option>
+                <option value="biweekly">Bi-weekly</option>
+                <option value="weekly">Weekly</option>
+              </select>
+              <Tooltip>
+                <TooltipTrigger className="absolute -top-1 -right-1">
+                  <Info className="w-3 h-3 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <div className="max-w-xs">
+                    <p className="font-semibold mb-1">Income Frequencies:</p>
+                    <p><strong>Annual:</strong> Yearly total amount</p>
+                    <p><strong>Monthly:</strong> Amount received per month</p>
+                    <p><strong>Bi-weekly:</strong> Amount received every 2 weeks (26 payments/year)</p>
+                    <p><strong>Weekly:</strong> Amount received every week</p>
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <input
               type="number"
               placeholder="Amount"
@@ -342,10 +371,20 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
         </div>
       </div>
 
-      {/* Expense Details Section */}
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-3">
-          <h4 className="text-lg font-semibold text-slate-700">Expense Details</h4>
+        {/* Expense Details Section */}
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <h4 className="text-lg font-semibold text-slate-700">Expense Details</h4>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="w-4 h-4 text-gray-400 hover:text-blue-500" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>List all your monthly expenses. This helps calculate your debt-to-income ratio and available funds for loan payments.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
           <div className="text-xl font-bold text-red-600">${totalExpenses.toLocaleString()}</div>
         </div>
 
@@ -418,8 +457,9 @@ const AffordabilityCalculator = ({ onCalculate }: AffordabilityProps) => {
             />
           )}
         </div>
+        </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 };
 
