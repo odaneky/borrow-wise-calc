@@ -204,13 +204,15 @@ const CalculatorPanel = ({
             <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border">
               <span className="text-gray-600 text-xs">$</span>
               <input
-                type="number"
-                value={deposit}
-                onChange={(e) => setDeposit(parseInt(e.target.value) || 0)}
+                type="text"
+                value={deposit === 0 ? "0" : deposit.toLocaleString()}
+                onChange={(e) => {
+                  const numericValue = parseInt(e.target.value.replace(/,/g, '')) || 0;
+                  if (numericValue >= 0 && numericValue <= 5000000) {
+                    setDeposit(numericValue);
+                  }
+                }}
                 className="w-20 text-center font-semibold text-gray-800 bg-transparent outline-none text-xs"
-                min="0"
-                max="5000000"
-                step="50000"
               />
               <span className="text-gray-600 text-xs">JMD</span>
             </div>
