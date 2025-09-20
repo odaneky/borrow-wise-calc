@@ -65,7 +65,7 @@ const CalculatorPanel = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-lg">
+    <div className="bg-white rounded-2xl p-4">
       <h3 className="text-lg font-bold text-slate-800 mb-1">Loan Calculator</h3>
       <p className="text-slate-600 mb-4">Work out your payments with precision</p>
 
