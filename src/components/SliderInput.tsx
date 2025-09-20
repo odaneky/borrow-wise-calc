@@ -113,11 +113,18 @@ const SliderInput = ({
       <div className="mt-2.5 relative">
         {isSliding && (
           <div 
-            className="absolute -top-12 bg-primary text-primary-foreground px-3 py-2 rounded-lg font-bold text-lg shadow-lg z-20 transform -translate-x-1/2 animate-scale-in"
+            className="absolute -top-16 bg-background border-2 border-primary text-foreground px-4 py-3 rounded-2xl font-bold text-lg shadow-xl z-30 transform -translate-x-1/2 animate-scale-in min-w-max"
             style={{ left: `${percentage}%` }}
           >
-            {formatValue ? formatValue(value) : `${prefix}${value}${suffix}`}
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-primary"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+              <span className="text-primary">
+                {formatValue ? formatValue(value) : `${prefix}${value}${suffix}`}
+              </span>
+            </div>
+            {/* Speech bubble tail */}
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-primary"></div>
+            <div className="absolute top-full left-1/2 transform -translate-x-1/2 translate-y-[-2px] w-0 h-0 border-l-6 border-r-6 border-t-6 border-transparent border-t-background"></div>
           </div>
         )}
         <input
